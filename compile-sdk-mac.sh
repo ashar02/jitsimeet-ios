@@ -34,3 +34,7 @@ xcodebuild -create-xcframework \
     -output ios/sdk/out/JitsiMeetSDK.xcframework
 rm -rf ios/sdk/out/WebRTC.xcframework
 cp -a node_modules/react-native-webrtc/apple/WebRTC.xcframework ios/sdk/out
+rm -rf ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/WebRTC.xcframework
+rm -rf ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/JitsiMeetSDK.xcframework
+cp -a node_modules/react-native-webrtc/apple/WebRTC.xcframework ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/
+cp -a ios/sdk/out/JitsiMeetSDK.xcframework ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/
