@@ -38,3 +38,8 @@ rm -rf ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/WebRTC.xcframework
 rm -rf ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/JitsiMeetSDK.xcframework
 cp -a node_modules/react-native-webrtc/apple/WebRTC.xcframework ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/
 cp -a ios/sdk/out/JitsiMeetSDK.xcframework ../jitsimeet-app/ios/Pods/JitsiMeetSDK/Frameworks/
+
+rm -rf ../CircleIt/ios/Pods/JitsiMeetSDK/Frameworks/WebRTC.xcframework
+rm -rf ../CircleIt/ios/Pods/JitsiMeetSDK/Frameworks/JitsiMeetSDK.xcframework
+cp -a node_modules/react-native-webrtc/apple/WebRTC.xcframework ../CircleIt/ios/Pods/JitsiMeetSDK/Frameworks/
+cp -a ios/sdk/out/JitsiMeetSDK.xcframework ../CircleIt/ios/Pods/JitsiMeetSDK/Frameworks/
