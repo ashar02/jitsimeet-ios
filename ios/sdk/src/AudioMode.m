@@ -237,7 +237,7 @@ RCT_EXPORT_METHOD(updateDeviceList) {
     [self notifyDevicesChanged];
 }
 
-RCT_EXPORT_METHOD(setInitialRouteToEarpiece:(BOOL) isEarpiece){
+RCT_EXPORT_METHOD(setInitialRouteToEarpiece:(BOOL) isInitialEarpiece){
      initialRouteToEarpiece = isInitialEarpiece;
 }
 
