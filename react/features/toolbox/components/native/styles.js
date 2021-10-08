@@ -19,7 +19,9 @@ const toolbarButton = {
     justifyContent: 'center',
     marginHorizontal: 6,
     marginTop: 6,
-    width: BUTTON_SIZE
+    width: BUTTON_SIZE,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    borderRadius: 24,
 };
 
 /**
@@ -123,7 +125,7 @@ ColorSchemeRegistry.register('Toolbox', {
         iconStyle: whiteToolbarButtonIcon,
         style: {
             ...toolbarButton,
-            backgroundColor: 'transparent'
+            
         }
     },
 
