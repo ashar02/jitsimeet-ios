@@ -289,13 +289,17 @@ RCT_EXPORT_METHOD(setInitialRouteToEarpiece:(BOOL) isInitialEarpiece){
 #pragma mark - Helper methods
 
 - (RTCAudioSessionConfiguration *)configForMode:(int) mode {
+    if (initialRouteToEarpiece) {
+        return earpieceConfig;
+    }
+
     if (mode != kAudioModeDefault && forceEarpiece) {
         return earpieceConfig;
     }
 
     switch (mode) {
         case kAudioModeAudioCall:
-            return earpieceConfig;
+            return audioCallConfig;
         case kAudioModeDefault:
             return defaultConfig;
         case kAudioModeVideoCall:
