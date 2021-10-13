@@ -11,6 +11,7 @@ import { InviteButton } from '../../../invite';
 import { ReactionsMenuButton } from '../../../reactions/components';
 import { TileViewButton } from '../../../video-layout';
 import { isToolboxVisible, getMovableButtons } from '../../functions.native';
+import { isLocalCameraTrackMuted } from '../../../base/tracks';
 import AudioMuteButton from '../AudioMuteButton';
 import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
@@ -28,6 +29,11 @@ type Props = {
      * The color-schemed stylesheet of the feature.
      */
     _styles: StyleType,
+
+    /**
+     * Whether video is currently muted or not.
+     */
+     _videoMuted: boolean,
 
     /**
      * The indicator which determines whether the toolbox is visible.
@@ -94,7 +100,7 @@ function Toolbox(props: Props) {
                 {additionalButtons.has('tileview') && <TileViewButton styles = { buttonStylesBorderless } />}
                 {additionalButtons.has('invite') && <InviteButton styles = { buttonStylesBorderless } />}
                 {additionalButtons.has('togglecamera')
-                      && <ToggleCameraButton
+                      && !props._videoMuted && <ToggleCameraButton
                           styles = { buttonStylesBorderless }
                           toggledStyles = { backgroundToggledStyle } />}
                 <OverflowMenuButton
@@ -120,10 +126,12 @@ function Toolbox(props: Props) {
  * @returns {Props}
  */
 function _mapStateToProps(state: Object): Object {
+    const tracks = state['features/base/tracks'];
     return {
         _styles: ColorSchemeRegistry.get(state, 'Toolbox'),
         _visible: isToolboxVisible(state),
-        _width: state['features/base/responsive-ui'].clientWidth
+        _width: state['features/base/responsive-ui'].clientWidth,
+        _videoMuted: isLocalCameraTrackMuted(tracks),
     };
 }
 
