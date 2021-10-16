@@ -57,6 +57,7 @@ static NSString * const kDeviceTypeUnknown    = @"UNKNOWN";
     BOOL forceEarpiece;
     BOOL isSpeakerOn;
     BOOL isEarpieceOn;
+    BOOL initialRouteToEarpiece;
 }
 
 RCT_EXPORT_MODULE();
@@ -112,6 +113,7 @@ RCT_EXPORT_MODULE();
         forceEarpiece = NO;
         isSpeakerOn = NO;
         isEarpieceOn = NO;
+        initialRouteToEarpiece = NO;
 
         RTCAudioSession *session = [RTCAudioSession sharedInstance];
         [session addDelegate:self];
@@ -232,6 +234,10 @@ RCT_EXPORT_METHOD(setAudioDevice:(NSString *)device
 
 RCT_EXPORT_METHOD(updateDeviceList) {
     [self notifyDevicesChanged];
+}
+
+RCT_EXPORT_METHOD(setInitialRouteToEarpiece:(BOOL) isEarpiece){
+     initialRouteToEarpiece = isInitialEarpiece;
 }
 
 #pragma mark - RTCAudioSessionDelegate
