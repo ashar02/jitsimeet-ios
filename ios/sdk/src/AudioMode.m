@@ -294,7 +294,7 @@ RCT_EXPORT_METHOD(setInitialRouteToEarpiece:(BOOL) isInitialEarpiece){
 
     switch (mode) {
         case kAudioModeAudioCall:
-            return audioCallConfig;
+            return earpieceConfig;
         case kAudioModeDefault:
             return defaultConfig;
         case kAudioModeVideoCall:
