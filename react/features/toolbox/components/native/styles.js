@@ -103,8 +103,7 @@ ColorSchemeRegistry.register('Toolbox', {
     buttonStylesBorderless: {
         iconStyle: whiteToolbarButtonIcon,
         style: {
-            ...toolbarButton,
-            backgroundColor: 'transparent'
+            ...toolbarButton
         }
     },
 
