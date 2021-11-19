@@ -275,7 +275,7 @@ class Conference extends AbstractConference<Props, *> {
                 <View
                     pointerEvents = 'box-none'
                     style = { styles.toolboxAndFilmstripContainer }>
-                    
+
                     <Captions onPress = { this._onClick } />
 
                     { _shouldDisplayTileView || <Container style = { styles.displayNameContainer }>
@@ -392,7 +392,6 @@ function _mapStateToProps(state) {
         leaving
     } = state['features/base/conference'];
     const { aspectRatio, reducedUI } = state['features/base/responsive-ui'];
-
 
     // XXX There is a window of time between the successful establishment of the
     // XMPP connection and the subsequent commencement of joining the MUC during
