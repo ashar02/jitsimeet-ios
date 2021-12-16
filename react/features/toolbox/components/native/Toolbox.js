@@ -15,6 +15,7 @@ import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
 import { isLocalCameraTrackMuted } from '../../../base/tracks';
 
+import { AudioRouteButton } from '../../../mobile/audio-mode';
 import OverflowMenuButton from './OverflowMenuButton';
 import RaiseHandButton from './RaiseHandButton';
 import ToggleCameraButton from './ToggleCameraButton';
@@ -81,10 +82,14 @@ function Toolbox(props: Props) {
                 accessibilityRole = 'toolbar'
                 pointerEvents = 'box-none'>
                 <View style = { styles.toolbox }>
-                <AudioMuteButton
+                <AudioRouteButton 
+                styles = { buttonStylesBorderless }
+                toggledStyles = { toggledButtonStyles }
+                />
+                <VideoMuteButton
                     styles = { buttonStylesBorderless }
                     toggledStyles = { toggledButtonStyles } />
-                <VideoMuteButton
+                <AudioMuteButton
                     styles = { buttonStylesBorderless }
                     toggledStyles = { toggledButtonStyles } />
                 { false
@@ -102,9 +107,10 @@ function Toolbox(props: Props) {
                       && !_videoMuted && <ToggleCameraButton
                           styles = { buttonStylesBorderless }
                           toggledStyles = { backgroundToggledStyle } />}
-                <OverflowMenuButton
+                {/* <OverflowMenuButton
                     styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
+                    toggledStyles = { toggledButtonStyles } /> */}
+                
                 </View>
                 <HangupButton
                     styles = { hangupButtonStyles } />
