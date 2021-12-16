@@ -279,9 +279,9 @@ class Conference extends AbstractConference<Props, *> {
 
                     <Captions onPress = { this._onClick } />
 
-                    { _shouldDisplayTileView && <Container style = { styles.displayNameContainer }>
+                    {/* { _shouldDisplayTileView && <Container style = { styles.displayNameContainer }>
                         <DisplayNameLabel participantId = { _largeVideoParticipantId } />
-                    </Container> }
+                    </Container> } */}
 
                     <LonelyMeetingExperience />
 
