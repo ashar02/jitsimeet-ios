@@ -3,7 +3,7 @@
 import { ColorSchemeRegistry, schemeColor } from '../../../base/color-scheme';
 import { BoxModel, ColorPalette } from '../../../base/styles';
 
-const BUTTON_SIZE = 60;
+const BUTTON_SIZE = 35;
 
 // Toolbox, toolbar:
 
@@ -17,7 +17,7 @@ const toolbarButton = {
     flexDirection: 'row',
     height: BUTTON_SIZE,
     justifyContent: 'center',
-    marginHorizontal: 6,
+    marginHorizontal: 18,
     marginTop: 6,
     width: BUTTON_SIZE,
     backgroundColor: 'rgba(115, 115, 115, 0.4)'
@@ -29,7 +29,7 @@ const toolbarButton = {
 const toolbarButtonIcon = {
     alignSelf: 'center',
     color: ColorPalette.darkGrey,
-    fontSize: 28
+    fontSize: 24
 };
 
 
@@ -70,7 +70,8 @@ const styles = {
         flexGrow: 0,
         justifyContent: 'space-around',
         paddingHorizontal: BoxModel.margin,
-        paddingVertical: 20
+        paddingVertical: 5,
+        alignSelf:'flex-start'
     },
 
     /**
@@ -80,9 +81,15 @@ const styles = {
         flexDirection: 'column',
         flexGrow: 0,
         width: '100%',
-        maxWidth: 500,
+        maxWidth: 390,
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        backgroundColor:'#564732',
+        borderRadius:35,
+        alignSelf:'center',
+        opacity:0.7,
+        marginBottom:10
+
     }
 };
 
@@ -114,10 +121,14 @@ ColorSchemeRegistry.register('Toolbox', {
     hangupButtonStyles: {
         iconStyle: whiteToolbarButtonIcon,
         style: {
-            ...toolbarButton,
+            flex:0,
             backgroundColor: schemeColor('hangup'),
-            marginBottom:12,
-            alignSelf:'center'
+            width:65,
+            height:32,
+            borderRadius:16,
+            marginRight:15,
+            alignItems:'center',
+            paddingVertical:4
         },
         underlayColor: ColorPalette.buttonUnderlay
     },
