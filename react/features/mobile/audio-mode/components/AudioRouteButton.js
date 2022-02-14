@@ -5,7 +5,7 @@ import { translate } from '../../../base/i18n';
 import { IconAudioRoute } from '../../../base/icons';
 import { connect } from '../../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../../base/toolbox/components';
-
+import { setToolboxVisible } from '../../../toolbox/actions';
 import AudioRoutePickerDialog from './AudioRoutePickerDialog';
 import {
     Icon,
@@ -54,8 +54,8 @@ class AudioRouteButton extends AbstractButton<Props, *> {
         super(Props)
     }
     accessibilityLabel = 'toolbar.accessibilityLabel.audioRoute';
-    icon=IconDeviceSpeaker;
-    toggledIcon = this.props?._devices?deviceInfoMap[this.props._devices?.find(device => device.selected == true)?.type]?.icon: IconAudioRoute;
+    icon=IconDeviceEarpiece;
+    toggledIcon = this.props?._devices?deviceInfoMap[this.props._devices?.find(device => device.selected == true)?.type]?.icon: IconDeviceEarpiece;
     label = 'toolbar.audioRoute';
 
     /**
@@ -70,6 +70,8 @@ class AudioRouteButton extends AbstractButton<Props, *> {
     _isIconChange(){
         if(deviceInfoMap[this.props._devices?.find(device => device.selected == true)?.type]?.icon){
             return true
+        }else{
+            this.props.dispatch(setToolboxVisible(false));
         }
     }
 }
