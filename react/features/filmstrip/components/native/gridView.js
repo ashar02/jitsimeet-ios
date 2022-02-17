@@ -8,7 +8,7 @@ class GridView extends Component {
         super(props);
         this.state = {
             fullWidth: Dimensions.get("window").width,
-            fullHeight: Dimensions.get("window").height ,
+            fullHeight: Dimensions.get("window").height - 50 ,
             tileSize: 0,
         };
     }
@@ -18,6 +18,28 @@ class GridView extends Component {
             (this.props?._participants?.length / 2).toFixed(0);
         this.setState({ tileSize: tileSize });
     };
+    renderTwoItem=({ item, index })=>{
+        return(
+         <View key={index}>
+                <Thumbnail
+                    disableTint={true}
+                    key={item.id}
+                    participant={item}
+                    renderDisplayName={true}
+                    styleOverrides={{
+                        aspectRatio: null,
+                        flex: 1,
+                        height: this.state.fullHeight / 2,
+                        maxHeight: this.state.fullHeight / 2,
+                        maxWidth: (this.state.fullWidth) - 15,
+                        width: (this.state.fullWidth) - 15,
+                        borderRadius:10
+                    }}
+                    tileView={true}
+                />
+            </View>
+        )
+    }
     renderItem = ({ item, index }) => {
         const tileSize =
             this.state.fullHeight /
@@ -39,9 +61,7 @@ class GridView extends Component {
                 : true
         ) {
             return (
-                <View
-                   
-                >
+                <View>
                     <Thumbnail
                         disableTint={true}
                         key={item.id}
@@ -70,6 +90,16 @@ class GridView extends Component {
                 alignSelf:'center',
                 borderRadius: 10
             };
+            const localParticipantStyleOverrides = {
+                aspectRatio: null,
+                flex: 1,
+                height: 150,
+                maxHeight: 150,
+                maxWidth: 150,
+                width: 200,
+                borderRadius:10,
+               
+            }
         return (
             <SafeAreaView>
             <View style={{ flex: 1 }}>
@@ -79,15 +109,29 @@ class GridView extends Component {
                         height: this.state.fullHeight,
                         alignSelf:'center',
                         alignItems:'center'
-                    }}
-                >
-                    <FlatList
-                        data={this.props._participants}
-                        renderItem={this.renderItem}
-                        numColumns={2}
-                        key={1}
-                        scrollEnabled={false}
-                    />
+                    }}>
+                        {
+                            this.props?._participants.length > 2 && (
+                                <FlatList
+                                    data={this.props._participants}
+                                    renderItem={this.renderItem}
+                                    numColumns={2}
+                                    key={1}
+                                    scrollEnabled={false}
+                                />
+                            )
+                        }
+                         {
+                              this.props?._participants.length == 2 && (
+                                <FlatList
+                                data={this.props._participants}
+                                renderItem={this.renderTwoItem}
+                                numColumns={1}
+                                key={2}
+                                scrollEnabled={false}
+                            />
+                              )
+                           }
                     {this.props?._participants?.length % 2 !== 0 ? (
                     <View
                         style={{
@@ -108,6 +152,16 @@ class GridView extends Component {
                 ) : (
                     <View></View>
                 )}
+                <View style={{position:'absolute', right:12, bottom:6}}>
+                <Thumbnail
+                            disableTint={true}
+                            key={this.props._localParticiapnt[0].id}
+                            participant={this.props._localParticiapnt[0]}
+                            renderDisplayName={true}
+                            styleOverrides={localParticipantStyleOverrides}
+                            tileView={true}
+                        />
+                </View>
                 </View>
                 
             </View>
@@ -118,12 +172,15 @@ class GridView extends Component {
 
 function _mapStateToProps(state) {
     const responsiveUi = state["features/base/responsive-ui"];
+    const participants = state["features/base/participants"];
+    const localParticiapnt = participants.filter(p => p.local == true);
 
     return {
         _aspectRatio: responsiveUi.aspectRatio,
         _height: responsiveUi.clientHeight,
-        _participants: state["features/base/participants"],
+        _participants: participants.filter(p => p.local == false),
         _width: responsiveUi.clientWidth,
+        _localParticiapnt: localParticiapnt
     };
 }
 
