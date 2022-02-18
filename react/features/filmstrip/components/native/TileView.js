@@ -272,7 +272,8 @@ class TileView extends Component<Props> {
             height: this._getTileDimensions().height,
             maxHeight: null,
             maxWidth: null,
-            width: null
+            width: null,
+            borderRadius:10
         };
 
         return this._getSortedParticipants()
