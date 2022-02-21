@@ -11,6 +11,7 @@ import type { Dispatch } from 'redux';
 import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
+import { getAvatarBackgroundColor } from '../../../base/avatar/functions';
 
 import Thumbnail from './Thumbnail';
 import styles from './styles';
@@ -134,15 +135,16 @@ class TileView extends Component<Props> {
                     disableTint = { true }
                     key = { this.state.localParticipant?.id }
                     participant = { this.state?.localParticipant }
-                    renderDisplayName = { true }
+                    renderDisplayName = { this.props._participants.length == 3 ? false : this.props._participants.length > 5 ? false : true }
                     styleOverrides = {{
                         aspectRatio: null,
                         flex: 1,
-                        height: 240,
-                        maxHeight: 140,
-                        maxWidth: 140,
-                        width: 240,
-                        borderRadius:10
+                        height: 140,
+                        maxHeight: this.props._participants.length == 3 ? 100 : this.props._participants.length > 5 ? 100 :  140 ,
+                        maxWidth: this.props._participants.length == 3 ? 100 : this.props._participants.length > 5 ? 100 :  140 ,
+                        width: 140,
+                        borderRadius:10,
+                        backgroundColor:getAvatarBackgroundColor(this.state?.localParticipant.name)
                     }}
                     tileView = { true } />
                 }
@@ -217,7 +219,7 @@ class TileView extends Component<Props> {
         // If there is going to be at least two rows, ensure that at least two
         // rows display fully on screen.
         if (participantCount / columns > 1) {
-            tileWidth = Math.min(widthToUse / columns, heightToUse / 3.5);
+            tileWidth = Math.min(widthToUse / columns, heightToUse / 3);
         } else {
             tileWidth = Math.min(widthToUse / columns, heightToUse);
         }
@@ -266,15 +268,6 @@ class TileView extends Component<Props> {
      * @returns {ReactElement[]}
      */
     _renderThumbnails() {
-        const styleOverrides = {
-            aspectRatio: TILE_ASPECT_RATIO,
-            flex: 0,
-            height: this._getTileDimensions().height,
-            maxHeight: null,
-            maxWidth: null,
-            width: null,
-            borderRadius:10
-        };
 
         return this._getSortedParticipants()
             .map(participant => (
@@ -283,7 +276,16 @@ class TileView extends Component<Props> {
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
+                    styleOverrides = {{
+                        aspectRatio: TILE_ASPECT_RATIO,
+                        flex: 0,
+                        height: this._getTileDimensions().height,
+                        maxHeight: null,
+                        maxWidth: null,
+                        width: null,
+                        borderRadius:10,
+                        backgroundColor:getAvatarBackgroundColor(participant.name)
+                    }}
                     tileView = { true } />));
     }
 
