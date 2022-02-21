@@ -146,7 +146,7 @@ class TileView extends Component<Props> {
                         borderRadius:10,
                         backgroundColor:getAvatarBackgroundColor(this.state?.localParticipant.name)
                     }}
-                    tileView = { true } />
+                    tileView = { false } />
                 }
            
             </View>
@@ -283,7 +283,7 @@ class TileView extends Component<Props> {
                         maxHeight: null,
                         maxWidth: null,
                         width: null,
-                        borderRadius:10,
+                        borderRadius:16,
                         backgroundColor:getAvatarBackgroundColor(participant.name)
                     }}
                     tileView = { true } />));
