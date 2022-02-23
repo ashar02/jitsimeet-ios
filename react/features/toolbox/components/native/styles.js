@@ -3,7 +3,7 @@
 import { ColorSchemeRegistry, schemeColor } from '../../../base/color-scheme';
 import { BoxModel, ColorPalette } from '../../../base/styles';
 import {Dimensions} from 'react-native';
-const BUTTON_SIZE = 50;
+const BUTTON_SIZE = 45;
 
 // Toolbox, toolbar:
 
@@ -81,6 +81,8 @@ const styles = {
         flexGrow: 0,
         width: '100%',
         maxWidth: Dimensions.get('screen').width - 34,
+        height:130,
+        maxheight:130,
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor:'#242424',
