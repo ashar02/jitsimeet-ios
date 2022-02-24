@@ -2,7 +2,7 @@
 
 import { ColorSchemeRegistry, schemeColor } from '../../../base/color-scheme';
 import { BoxModel, ColorPalette } from '../../../base/styles';
-import {Dimensions} from 'react-native';
+import {Dimensions, StatusBar} from 'react-native';
 const BUTTON_SIZE = 45;
 
 // Toolbox, toolbar:
@@ -70,7 +70,7 @@ const styles = {
         flexGrow: 0,
         justifyContent: 'space-between',
         paddingHorizontal: 0,
-        paddingVertical: 10,
+        paddingVertical: 5,
     },
 
     /**
@@ -80,15 +80,15 @@ const styles = {
         flexDirection: 'column',
         flexGrow: 0,
         width: '100%',
-        maxWidth: Dimensions.get('screen').width - 34,
-        height:130,
+        maxWidth: Dimensions.get('screen').width - 14,
+        height:110,
         maxheight:130,
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor:'#242424',
         borderRadius:35,
         alignSelf:'center',
-        marginBottom:10
+        marginTop:StatusBar.currentHeight + 5
 
     }
 };
