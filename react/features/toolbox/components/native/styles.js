@@ -119,17 +119,18 @@ ColorSchemeRegistry.register('Toolbox', {
     hangupButtonStyles: {
         iconStyle: {
             color: ColorPalette.darkGrey,
-            fontSize: 42,
+            fontSize: 40,
             marginTop: -3,
             marginLeft:3
         },
         style: {
             flex:0,
             backgroundColor: schemeColor('hangup'),
-            width:72,
-            height:34,
+            width:62,
+            height:32,
             borderRadius:16,
             marginRight:15,
+            alignItems:'center'
         },
         underlayColor: ColorPalette.buttonUnderlay
     },
