@@ -28,11 +28,24 @@ class LocalThumbnail extends Component<Props> {
      * @inheritdoc
      */
     render() {
-        const { _localParticipant } = this.props;
+        const { _localParticipant, participantsCount } = this.props;
+        const styleOverrides = {
+            aspectRatio: null,
+            flex: 1,
+            height: 140,
+            maxHeight:  participantsCount == 3 ? 100 : participantsCount > 5 ? 100 : 140,
+            maxWidth: participantsCount == 3 ? 100 : participantsCount > 5 ? 100 : 140,
+            width: 140,
+            borderRadius:16,
+            marginRight:10
+        };
 
         return (
             <View style = { styles.localThumbnail }>
-                <Thumbnail participant = { _localParticipant } />
+                <Thumbnail participant = { _localParticipant } 
+                styleOverrides={styleOverrides}
+                renderDisplayName = {participantsCount == 3 ? false : participantsCount > 5 ? false : true }
+                />
             </View>
         );
     }

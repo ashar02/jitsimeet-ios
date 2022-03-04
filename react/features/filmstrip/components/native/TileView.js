@@ -188,7 +188,7 @@ class TileView extends Component<Props> {
         // If there is going to be at least two rows, ensure that at least two
         // rows display fully on screen.
         if (participantCount / columns > 1) {
-            tileWidth = Math.min(widthToUse / columns, heightToUse / 2);
+            tileWidth = Math.min(widthToUse / columns, heightToUse / 2.5);
         } else {
             tileWidth = Math.min(widthToUse / columns, heightToUse);
         }
