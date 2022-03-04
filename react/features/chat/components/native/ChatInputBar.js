@@ -86,7 +86,9 @@ class ChatInputBar extends Component<Props, State> {
                     ref = { this._onFieldReferenceAvailable }
                     returnKeyType = 'send'
                     style = { styles.inputField }
-                    value = { this.state.message } />
+                    value = { this.state.message }
+                    placeholderTextColor={"#fff"}
+                    />
                 {
                     this.state.showSend && <TouchableOpacity onPress = { this._onSubmit }>
                         <Icon

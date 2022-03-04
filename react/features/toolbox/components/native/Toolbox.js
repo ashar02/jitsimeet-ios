@@ -1,7 +1,7 @@
 // @flow
 
-import React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import React, {useState} from 'react';
+import { SafeAreaView, View, Text, Modal, TouchableWithoutFeedback, Dimensions } from 'react-native';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { connect } from '../../../base/redux';
@@ -14,11 +14,16 @@ import AudioMuteButton from '../AudioMuteButton';
 import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
 import { isLocalCameraTrackMuted } from '../../../base/tracks';
-
+import { Avatar } from '../../../base/avatar';
+import { AudioRouteButton } from '../../../mobile/audio-mode';
 import OverflowMenuButton from './OverflowMenuButton';
 import RaiseHandButton from './RaiseHandButton';
 import ToggleCameraButton from './ToggleCameraButton';
 import styles from './styles';
+import { getParticipantById } from '../../../base/participants/functions';
+import { isLocalTrackMuted } from '../../../base/tracks';
+import { MEDIA_TYPE } from '../../../base/media';
+import ConferenceTimer from '../../../conference/components/ConferenceTimer';
 
 /**
  * The type of {@link Toolbox}'s React {@code Component} props.
@@ -34,6 +39,18 @@ type Props = {
      * Whether video is currently muted or not.
      */
     _videoMuted: boolean,
+
+    _participant: Object,
+
+    /**
+     * Whether audio is currently muted or not.
+     */
+     _audioMuted: boolean,
+
+     /**
+     * The participants in the conference.
+     */
+      _participants: Array<Object>,
 
     /**
      * The indicator which determines whether the toolbox is visible.
@@ -72,7 +89,7 @@ function Toolbox(props: Props) {
             _styles.backgroundToggle
         ]
     };
-
+    const [modalVisible, setModalVisible] = useState(false);
     return (
         <View
             pointerEvents = 'box-none'
@@ -80,17 +97,91 @@ function Toolbox(props: Props) {
             <SafeAreaView
                 accessibilityRole = 'toolbar'
                 pointerEvents = 'box-none'>
+                    <TouchableWithoutFeedback onPress={()=> setModalVisible(true)}>
+                <View style={{marginLeft:14, marginTop:7.5, flexDirection:'row',  justifyContent:'space-between', alignItems:'center'}}>
+                <View style={{alignItems:'center', flexDirection:'row'}}>
+                <Avatar
+                    participantId = { props?._participant?.id }
+                    size = { 44 } />
+                   <View>
+                <Text style={{color:'#fff', fontWeight:'bold', fontSize:15, paddingLeft:6}}>{props?._participant?.name}</Text>
+                <Text style={{color:'#fff', fontSize:12, paddingLeft:6}}>Circleit {props._videoMuted ? 'Audio' : 'Video'} Call</Text>
+                </View>
+                </View>
+                <View>
+                <HangupButton
+                    styles = { hangupButtonStyles } />
+                </View>
+                </View>
+                </TouchableWithoutFeedback>
                 <View style = { styles.toolbox }>
-                <AudioMuteButton
-                    styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
+                <ToggleCameraButton
+                    styles = {{iconStyle:{fontSize:24, color: '#fff'}, style: {borderRadius: 20,
+                        borderWidth: 0,
+                        flex: 0,
+                        flexDirection: 'row',
+                        height: 40,
+                        justifyContent: 'center',
+                        marginHorizontal: 17,
+                        marginTop: 6,
+                        alignItems:'center',
+                        width: 40,
+                        backgroundColor: 'rgba(115, 115, 115, 0.5)'}}}
+                     />
+                <AudioRouteButton 
+                styles = {{iconStyle:{fontSize:24, color:'#000'}, style: {borderRadius: 20,
+                    borderWidth: 0,
+                    flex: 0,
+                    flexDirection: 'row',
+                    height: 40,
+                    justifyContent: 'center',
+                    marginHorizontal: 16,
+                    marginTop: 6,
+                    alignItems:'center',
+                    width: 40,
+                    backgroundColor: 'rgba(225, 225, 225, 1)'}}}
+                />
                 <VideoMuteButton
-                    styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
-                { false
+                    styles = {{iconStyle:{fontSize:24, color: props._videoMuted ? '#fff' : '#000'}, style: {borderRadius: 20,
+                        borderWidth: 0,
+                        flex: 0,
+                        flexDirection: 'row',
+                        height: 40,
+                        justifyContent: 'center',
+                        marginHorizontal: 18,
+                        marginTop: 6,
+                        alignItems:'center',
+                        width: 40,
+                        backgroundColor: props._videoMuted ? 'rgba(115, 115, 115, 0.5)' :'rgba(225, 225, 225, 1)'}}}
+                     />
+                
+                <AudioMuteButton
+                    styles = {{iconStyle:{fontSize:24, color:props._audioMuted ? '#fff' : '#000'}, style: {borderRadius: 20,
+                        borderWidth: 0,
+                        flex: 0,
+                        flexDirection: 'row',
+                        height: 40,
+                        justifyContent: 'center',
+                        marginHorizontal: 16,
+                        marginTop: 6,
+                        alignItems:'center',
+                        width: 40,
+                        backgroundColor: props._audioMuted ? 'rgba(115, 115, 115, 0.5)' :'rgba(225, 225, 225, 1)'}}}
+                    />
+                { true
                       && <ChatButton
-                          styles = { buttonStylesBorderless }
-                          toggledStyles = { backgroundToggledStyle } />}
+                            styles = { {iconStyle:{fontSize:24, color: '#fff'}, style: {borderRadius: 20,
+                            borderWidth: 0,
+                            flex: 0,
+                            flexDirection: 'row',
+                            height: 40,
+                            justifyContent: 'center',
+                            marginHorizontal: 16,
+                            marginTop: 6,
+                            alignItems:'center',
+                            width: 40,
+                            backgroundColor: 'rgba(115, 115, 115, 0.5)'}} }
+                             />}
 
                 { additionalButtons.has('raisehand')
                       && <RaiseHandButton
@@ -98,16 +189,108 @@ function Toolbox(props: Props) {
                           toggledStyles = { backgroundToggledStyle } />}
                 {additionalButtons.has('tileview') && <TileViewButton styles = { buttonStylesBorderless } />}
                 {additionalButtons.has('invite') && <InviteButton styles = { buttonStylesBorderless } />}
-                {additionalButtons.has('togglecamera')
+                {/* {additionalButtons.has('togglecamera')
                       && !_videoMuted && <ToggleCameraButton
                           styles = { buttonStylesBorderless }
-                          toggledStyles = { backgroundToggledStyle } />}
-                <OverflowMenuButton
+                          toggledStyles = { backgroundToggledStyle } />} */}
+                {/* <OverflowMenuButton
                     styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
+                    toggledStyles = { toggledButtonStyles } /> */}
+                
                 </View>
-                <HangupButton
-                    styles = { hangupButtonStyles } />
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}
+                >
+                    <View style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        alignItems: "center", backgroundColor: '#242424', opacity: 0.98,
+                        width: Dimensions.get('screen').width, height: Dimensions.get('screen').height
+                    }}>
+
+                        <View style={{ position: 'absolute', right: 20, top: 50 }}>
+                            <Text style={{ fontSize: 14, color: '#fff', fontWeight: 'bold' }} onPress={() => setModalVisible(false)}>Done</Text>
+                        </View>
+
+                        <View style={{ alignSelf: 'center' }}>
+                            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+                                {
+                                    props._participants.map(function (participant, index) {
+                                        return (
+                                            <View style={{ marginLeft: -10, marginTop: 4 }}>
+                                                <Avatar
+                                                    participantId={participant?.id}
+                                                    size={50} />
+                                            </View>
+                                        )
+                                    })
+                                }
+                            </View>
+                            <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 12 }}>
+                                {props._participants?.length <= 3 ? (
+                                    props._participants?.map(function (user, index) {
+                                        return (
+                                            <Text
+                                                ellipsizeMode="tail"
+                                                numberOfLines={1}
+                                                style={{
+                                                    color: '#ffffff',
+                                                    fontSize: 18, fontWeight: 'bold'
+                                                }}>
+                                                {user.name}
+                                                {props._participants.length == 2 && props._participants.length - 1 !== index ? ' & ' : props._participants.length - 1 == index ? '' : ', '}
+                                            </Text>
+                                        );
+                                    })
+                                ) : (
+                                    <Text style={{
+                                        color: '#ffffff',
+                                        fontSize: 14,
+                                    }}>
+                                        {`${props._participants[0]?.name} and ${props._participants?.length - 1
+                                            } others`}
+                                    </Text>
+                                )}
+                            </View>
+                        </View>
+
+                        <View style={{ borderRadius: 12, width: Dimensions.get('screen').width - 60, backgroundColor: '#343333', alignSelf: 'center', marginTop: 50 }}>
+                            <View style={{ margin: 12 }}>
+                                <View style={{ borderBottomWidth: 1, borderBottomColor: '#fff', paddingBottom: 8 }}>
+                                    <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>CircleIt</Text>
+                                    <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>{props._participants.length} People Active</Text>
+                                </View>
+
+                                {
+                                    props._participants.map(function (participant, index) {
+                                        return (
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
+                                                <View>
+                                                    <Avatar
+                                                        participantId={participant?.id}
+                                                        size={40} />
+                                                </View>
+                                                <View style={{ marginLeft: 12 }}>
+                                                    <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>
+                                                        {participant.name}
+                                                    </Text>
+                                                    <Text style={{ color: '#fff', fontSize: 12 }}>
+                                                        Circleit {props._videoMuted ? 'Audio' : 'Video'} call
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                        )
+                                    })
+                                }
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </SafeAreaView>
         </View>
     );
@@ -124,11 +307,17 @@ function Toolbox(props: Props) {
  */
 function _mapStateToProps(state: Object): Object {
     const tracks = state['features/base/tracks'];
+    const participant = getParticipantById(state, state['features/large-video'].participantId);
+    const participants =  state['features/base/participants'];
+    const _audioMuted = isLocalTrackMuted(state['features/base/tracks'], MEDIA_TYPE.AUDIO);
     return {
         _styles: ColorSchemeRegistry.get(state, 'Toolbox'),
         _visible: isToolboxVisible(state),
         _width: state['features/base/responsive-ui'].clientWidth,
         _videoMuted: isLocalCameraTrackMuted(tracks),
+        _participant: participant,
+        _participants: participants,
+        _audioMuted
     };
 }
 

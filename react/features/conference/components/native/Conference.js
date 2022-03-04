@@ -17,7 +17,8 @@ import {
     FILMSTRIP_SIZE,
     Filmstrip,
     isFilmstripVisible,
-    TileView
+    TileView,
+    GridView
 } from '../../../filmstrip';
 import { AddPeopleDialog, CalleeInfoContainer } from '../../../invite';
 import { LargeVideo } from '../../../large-video';
@@ -252,7 +253,7 @@ class Conference extends AbstractConference<Props, *> {
                   * The LargeVideo is the lowermost stacking layer.
                   */
                     _shouldDisplayTileView
-                        ? <TileView onClick = { this._onClick } />
+                        ? <TileView onClick = { this._onClick }/>
                         : <LargeVideo onClick = { this._onClick } />
                 }
 
@@ -278,14 +279,14 @@ class Conference extends AbstractConference<Props, *> {
 
                     <Captions onPress = { this._onClick } />
 
-                    { _shouldDisplayTileView && <Container style = { styles.displayNameContainer }>
+                    {/* { _shouldDisplayTileView && <Container style = { styles.displayNameContainer }>
                         <DisplayNameLabel participantId = { _largeVideoParticipantId } />
-                    </Container> }
+                    </Container> } */}
 
                     <LonelyMeetingExperience />
-
-                    { _shouldDisplayTileView ? undefined : <Filmstrip /> }
+                    { <Filmstrip /> }
                     <Toolbox />
+                    
                 </View>
 
                 <SafeAreaView

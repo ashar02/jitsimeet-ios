@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 
 import { Platform } from '../../../base/react';
+import { isLocalCameraTrackMuted } from '../../../base/tracks';
 import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { isFilmstripVisible } from '../../functions';
@@ -26,6 +27,11 @@ type Props = {
      * The participants in the conference.
      */
     _participants: Array<any>,
+
+    /**
+     * Whether video is currently muted or not.
+     */
+     _videoMuted: boolean,
 
     /**
      * The indicator which determines whether the filmstrip is visible.
@@ -81,9 +87,9 @@ class Filmstrip extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _aspectRatio, _participants, _visible } = this.props;
+        const { _aspectRatio, _participants, _visible, _videoMuted } = this.props;
 
-        if (!_visible) {
+        if (_participants.length + 1 < 3 && _videoMuted) {
             return null;
         }
 
@@ -106,7 +112,7 @@ class Filmstrip extends Component<Props> {
                         !this._separateLocalThumbnail && !isNarrowAspectRatio
                             && <LocalThumbnail participantsCount={_participants.length+1} />
                     }
-                    {
+                    {/* {
 
                         this._sort(_participants, isNarrowAspectRatio)
                             .map(p => (
@@ -114,7 +120,7 @@ class Filmstrip extends Component<Props> {
                                     key = { p.id }
                                     participant = { p } />))
 
-                    }
+                    } */}
                     {
                         !this._separateLocalThumbnail && isNarrowAspectRatio
                             && <LocalThumbnail participantsCount={_participants.length+1} />
@@ -168,11 +174,13 @@ class Filmstrip extends Component<Props> {
 function _mapStateToProps(state) {
     const participants = state['features/base/participants'];
     const { enabled } = state['features/filmstrip'];
+    const tracks = state['features/base/tracks'];
 
     return {
         _aspectRatio: state['features/base/responsive-ui'].aspectRatio,
         _participants: participants.filter(p => !p.local),
-        _visible: enabled && isFilmstripVisible(state)
+        _visible: enabled && isFilmstripVisible(state),
+        _videoMuted: isLocalCameraTrackMuted(tracks),
     };
 }
 

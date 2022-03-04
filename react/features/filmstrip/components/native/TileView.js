@@ -11,6 +11,7 @@ import type { Dispatch } from 'redux';
 import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
+import { getAvatarBackgroundColor } from '../../../base/avatar/functions';
 
 import Thumbnail from './Thumbnail';
 import styles from './styles';
@@ -75,6 +76,12 @@ const TILE_ASPECT_RATIO = 1;
  * @extends Component
  */
 class TileView extends Component<Props> {
+    constructor(props){
+        super(props);
+        this.state={
+            localParticipant: null
+        }
+    }
     /**
      * Implements React's {@link Component#componentDidMount}.
      *
@@ -104,6 +111,7 @@ class TileView extends Component<Props> {
         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
 
         return (
+            <View>
             <ScrollView
                 style = {{
                     ...styles.tileView,
@@ -121,6 +129,28 @@ class TileView extends Component<Props> {
                     </View>
                 </TouchableWithoutFeedback>
             </ScrollView>
+            {/* <View style={{position:'absolute', right:12,bottom:12}}>
+                {
+                    this.state.localParticipant &&  <Thumbnail
+                    disableTint = { true }
+                    key = { this.state.localParticipant?.id }
+                    participant = { this.state?.localParticipant }
+                    renderDisplayName = { this.props._participants.length == 3 ? false : this.props._participants.length > 5 ? false : true }
+                    styleOverrides = {{
+                        aspectRatio: null,
+                        flex: 1,
+                        height: 140,
+                        maxHeight: this.props._participants.length == 3 ? 100 : this.props._participants.length > 5 ? 100 :  140 ,
+                        maxWidth: this.props._participants.length == 3 ? 100 : this.props._participants.length > 5 ? 100 :  140 ,
+                        width: 140,
+                        borderRadius:16,
+                        backgroundColor:getAvatarBackgroundColor(this.state?.localParticipant.name)
+                    }}
+                    tileView = { false } />
+                }
+           
+            </View> */}
+            </View>
         );
     }
 
@@ -131,7 +161,7 @@ class TileView extends Component<Props> {
      * @private
      */
     _getColumnCount() {
-        const participantCount = this.props._participants.length;
+        const participantCount = this.props._participants.length - 1;
 
         // For narrow view, tiles should stack on top of each other for a lonely
         // call and a 1:1 call. Otherwise tiles should be grouped into rows of
@@ -165,8 +195,9 @@ class TileView extends Component<Props> {
                 participants.push(participant);
             }
         }
-
-        localParticipant && participants.push(localParticipant);
+        if(!this.state.localParticipant){
+            localParticipant && this.setState({localParticipant: localParticipant});
+            }
 
         return participants;
     }
@@ -237,14 +268,6 @@ class TileView extends Component<Props> {
      * @returns {ReactElement[]}
      */
     _renderThumbnails() {
-        const styleOverrides = {
-            aspectRatio: TILE_ASPECT_RATIO,
-            flex: 0,
-            height: this._getTileDimensions().height,
-            maxHeight: null,
-            maxWidth: null,
-            width: null
-        };
 
         return this._getSortedParticipants()
             .map(participant => (
@@ -253,7 +276,16 @@ class TileView extends Component<Props> {
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
+                    styleOverrides = {{
+                        aspectRatio: TILE_ASPECT_RATIO,
+                        flex: 0,
+                        height: this._getTileDimensions().height,
+                        maxHeight: null,
+                        maxWidth: null,
+                        width: null,
+                        borderRadius:16,
+                        backgroundColor:getAvatarBackgroundColor(participant.name)
+                    }}
                     tileView = { true } />));
     }
 

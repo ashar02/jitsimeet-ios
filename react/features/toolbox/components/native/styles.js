@@ -2,8 +2,8 @@
 
 import { ColorSchemeRegistry, schemeColor } from '../../../base/color-scheme';
 import { BoxModel, ColorPalette } from '../../../base/styles';
-
-const BUTTON_SIZE = 60;
+import {Dimensions} from 'react-native';
+const BUTTON_SIZE = 45;
 
 // Toolbox, toolbar:
 
@@ -17,7 +17,7 @@ const toolbarButton = {
     flexDirection: 'row',
     height: BUTTON_SIZE,
     justifyContent: 'center',
-    marginHorizontal: 6,
+    marginHorizontal: 18,
     marginTop: 6,
     width: BUTTON_SIZE,
     backgroundColor: 'rgba(115, 115, 115, 0.4)'
@@ -29,7 +29,7 @@ const toolbarButton = {
 const toolbarButtonIcon = {
     alignSelf: 'center',
     color: ColorPalette.darkGrey,
-    fontSize: 28
+    fontSize: 26
 };
 
 
@@ -68,9 +68,9 @@ const styles = {
         borderTopRightRadius: 3,
         flexDirection: 'row',
         flexGrow: 0,
-        justifyContent: 'space-around',
-        paddingHorizontal: BoxModel.margin,
-        paddingVertical: 20
+        justifyContent: 'space-between',
+        paddingHorizontal: 0,
+        paddingVertical: 5,
     },
 
     /**
@@ -80,9 +80,14 @@ const styles = {
         flexDirection: 'column',
         flexGrow: 0,
         width: '100%',
-        maxWidth: 500,
+        maxWidth: Dimensions.get('screen').width - 14,
+        height:110,
+        maxheight:130,
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        backgroundColor:'#242424',
+        borderRadius:35,
+        alignSelf:'center'
     }
 };
 
@@ -114,17 +119,18 @@ ColorSchemeRegistry.register('Toolbox', {
     hangupButtonStyles: {
         iconStyle: {
             color: ColorPalette.darkGrey,
-            fontSize: 30,
-            alignSelf:'center',
-            marginTop:3
+            fontSize: 40,
+            marginTop: -3,
+            marginLeft:3
         },
         style: {
             flex:0,
             backgroundColor: schemeColor('hangup'),
-            width:72,
-            height:34,
+            width:62,
+            height:32,
             borderRadius:16,
             marginRight:15,
+            alignItems:'center'
         },
         underlayColor: ColorPalette.buttonUnderlay
     },
