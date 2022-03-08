@@ -111,7 +111,7 @@ class TileView extends Component<Props> {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
         const boxHeight = Dimensions.get('screen').height / 3 - 50;
-        const boxWidth = Dimensions.get('screen').height / 2 + 30; 
+        const boxWidth = Dimensions.get('screen').width / 2 + 27; 
         return (
             <View>
                 {
@@ -136,7 +136,7 @@ class TileView extends Component<Props> {
                     ):(
                         this._getSortedParticipants().map(function (participant, index) {
                             return(
-                                <View style={{position:'absolute', left: index%2 !== 0 ? Dimensions.get('screen').width - 250:10, top: index == 0 ? 58 : index == 1 ? index*boxHeight+65 : index*boxHeight+72}}>
+                                <View style={{position:'absolute', left: index%2 !== 0 ? Dimensions.get('screen').width - 235:10, top: index == 0 ? 58 : index == 1 ? index*boxHeight+65 : index*boxHeight+72}}>
                                     <Thumbnail
                                         disableTint={true}
                                         key={participant?.id}
@@ -249,7 +249,7 @@ class TileView extends Component<Props> {
         // If there is going to be at least two rows, ensure that at least two
         // rows display fully on screen.
         if (participantCount / columns > 1) {
-            tileWidth = Math.min(widthToUse / columns, heightToUse / 2.5);
+            tileWidth = Math.min(widthToUse / columns, heightToUse / 2.6);
         } else {
             tileWidth = Math.min(widthToUse / columns, heightToUse);
         }

@@ -33,7 +33,7 @@ class LocalThumbnail extends Component<Props> {
             aspectRatio: null,
             flex: 1,
             height: 440,
-            maxHeight:  participantsCount == 2 ? 390 : participantsCount == 3 ? 100 : participantsCount > 5 ? 100 : 140,
+            maxHeight:  participantsCount == 2 ? 390 : participantsCount == 3 ? 100 : participantsCount > 5 ? 100 : 390,
             maxWidth: participantsCount == 2 ? 140 : participantsCount == 3 ? 100 : participantsCount > 5 ? 100 : 140,
             width: 240,
             borderRadius:participantsCount == 2 ? 12 : 16,
@@ -41,7 +41,7 @@ class LocalThumbnail extends Component<Props> {
         };
 
         return (
-            <View style = {{aspectRatio: participantsCount == 2 ? 0.6 : 1}}>
+            <View style = {{aspectRatio: participantsCount == 2 ? 0.6 : 0.6}}>
                 <Thumbnail participant = { _localParticipant } 
                 styleOverrides={styleOverrides}
                 renderDisplayName = {participantsCount == 3 ? false : participantsCount > 5 ? false : true }
