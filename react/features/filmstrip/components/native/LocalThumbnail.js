@@ -41,7 +41,7 @@ class LocalThumbnail extends Component<Props> {
         };
 
         return (
-            <View style = {{aspectRatio: participantsCount == 2 ? 0.6 : 0.6}}>
+            <View style = {{aspectRatio: participantsCount <= 2 ? 0.6 : 1}}>
                 <Thumbnail participant = { _localParticipant } 
                 styleOverrides={styleOverrides}
                 renderDisplayName = {participantsCount == 3 ? false : participantsCount > 5 ? false : true }
