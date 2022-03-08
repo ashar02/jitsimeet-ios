@@ -110,8 +110,8 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
-        const boxHeight = Dimensions.get('screen').height / 3 - 70;
-        const boxWidth = 240 
+        const boxHeight = Dimensions.get('screen').height / 3 - 50;
+        const boxWidth = Dimensions.get('screen').height / 2 + 30; 
         return (
             <View>
                 {
@@ -136,7 +136,7 @@ class TileView extends Component<Props> {
                     ):(
                         this._getSortedParticipants().map(function (participant, index) {
                             return(
-                                <View style={{position:'absolute', left: index%2 !== 0 ? Dimensions.get('screen').width - 250:10, top: index == 0 ? 60 : index == 1 ? 305 : 550}}>
+                                <View style={{position:'absolute', left: index%2 !== 0 ? Dimensions.get('screen').width - 250:10, top: index == 0 ? 58 : index == 1 ? index*boxHeight+65 : index*boxHeight+72}}>
                                     <Thumbnail
                                         disableTint={true}
                                         key={participant?.id}
