@@ -284,7 +284,7 @@ class Conference extends AbstractConference<Props, *> {
                     </Container> } */}
 
                     <LonelyMeetingExperience />
-                    { <Filmstrip /> }
+                    { <Filmstrip onClick = { this._onClick }/> }
                     <Toolbox />
                     
                 </View>

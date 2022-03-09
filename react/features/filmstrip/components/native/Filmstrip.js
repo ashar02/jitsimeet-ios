@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableWithoutFeedback } from 'react-native';
 
 import { Platform } from '../../../base/react';
 import { isLocalCameraTrackMuted } from '../../../base/tracks';
@@ -87,7 +87,7 @@ class Filmstrip extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _aspectRatio, _participants, _visible, _videoMuted } = this.props;
+        const { _aspectRatio, _participants, _visible, _videoMuted, onClick } = this.props;
 
         if (_participants.length + 1 < 3 && _videoMuted) {
             return null;
@@ -97,12 +97,14 @@ class Filmstrip extends Component<Props> {
         const filmstripStyle = isNarrowAspectRatio ? styles.filmstripNarrow : styles.filmstripWide;
 
         return (
+            <TouchableWithoutFeedback onPress = { onClick }>
             <SafeAreaView style = { filmstripStyle }>
                 {
                     this._separateLocalThumbnail
                         && !isNarrowAspectRatio
                         && <LocalThumbnail participantsCount={_participants.length+1} />
                 }
+                
                 <ScrollView
                     horizontal = { isNarrowAspectRatio }
                     showsHorizontalScrollIndicator = { false }
@@ -126,11 +128,14 @@ class Filmstrip extends Component<Props> {
                             && <LocalThumbnail participantsCount={_participants.length+1} />
                     }
                 </ScrollView>
+               
                 {
                     this._separateLocalThumbnail && isNarrowAspectRatio
                         && <LocalThumbnail participantsCount={_participants.length+1} />
                 }
             </SafeAreaView>
+            </TouchableWithoutFeedback>
+            
         );
     }
 

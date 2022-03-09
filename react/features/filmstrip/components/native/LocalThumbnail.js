@@ -45,7 +45,8 @@ class LocalThumbnail extends Component<Props> {
                 <Thumbnail participant = { _localParticipant } 
                 styleOverrides={styleOverrides}
                 renderDisplayName = {participantsCount == 3 ? false : participantsCount > 5 ? false : true }
-                tileView={false}
+                tileView={true}
+                isLocalUser={true}
                 />
             </View>
         );

@@ -113,6 +113,7 @@ class TileView extends Component<Props> {
         const boxHeight = Dimensions.get('screen').height / 3 - 50;
         const boxWidth = Dimensions.get('screen').width / 2 + 27; 
         return (
+            <TouchableWithoutFeedback onPress = { onClick }>
             <View>
                 {
                     this.props._participants.length !== 4 ? (
@@ -122,7 +123,7 @@ class TileView extends Component<Props> {
                             height: _height,
                             width: _width
                         }}>
-                        <TouchableWithoutFeedback onPress = { onClick }>
+                        
                             <View
                                 style = {{
                                     ...styles.tileViewRows,
@@ -131,7 +132,7 @@ class TileView extends Component<Props> {
                                 }}>
                                 { rowElements }
                             </View>
-                        </TouchableWithoutFeedback>
+                        
                     </ScrollView>
                     ):(
                         this._getSortedParticipants().map(function (participant, index) {
@@ -152,7 +153,9 @@ class TileView extends Component<Props> {
                                             borderRadius: 16,
                                             backgroundColor: getAvatarBackgroundColor(this.state?.localParticipant.name)
                                         }}
-                                        tileView={true} />
+                                        tileView={true}
+                                        isLocalUser={false}
+                                        />
                                 </View>
                             )
                         })
@@ -181,6 +184,7 @@ class TileView extends Component<Props> {
            
             </View> */}
             </View>
+            </TouchableWithoutFeedback>
         );
     }
 
@@ -316,7 +320,9 @@ class TileView extends Component<Props> {
                         borderRadius:16,
                         backgroundColor:getAvatarBackgroundColor(participant.name)
                     }}
-                    tileView = { true } />));
+                    tileView = { true }
+                    isLocalUser={false}
+                    />));
     }
 
     /**
