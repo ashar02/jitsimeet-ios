@@ -111,4 +111,11 @@
  */
 - (void)videoMutedChanged:(NSDictionary *)data;
 
+/**
+ * Called when chat button pressed.
+ *
+ * The `data` dictionary contains empty key.
+ */
+- (void)chatButtonPressed:(NSDictionary *)data;
+
 @end
