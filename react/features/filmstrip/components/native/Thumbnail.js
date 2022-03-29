@@ -130,7 +130,8 @@ function Thumbnail(props: Props) {
         participant,
         renderDisplayName,
         tileView,
-        isLocalUser
+        isLocalUser,
+        onClick
     } = props;
 
     const participantId = participant.id;
@@ -158,6 +159,7 @@ function Thumbnail(props: Props) {
                 style = { _styles.participantViewStyle, { borderWidth: renderDominantSpeakerIndicator && videoMuted  ? 2 : 0, borderColor:'#D2A622', borderRadius:15} }
                 tintEnabled = { participantInLargeVideo && !disableTint }
                 tintStyle = { _styles.activeThumbnailTint }
+                onPress = { onClick }
                 zOrder = { 1 } />
 
             { renderDisplayName && <Container style = { styles.displayNameContainer }>

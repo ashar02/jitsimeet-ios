@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { NativeModules, SafeAreaView, StatusBar, View } from 'react-native';
+import { NativeModules, SafeAreaView, StatusBar, View, Animated } from 'react-native';
 
 import { appNavigate } from '../../../app/actions';
 import { PIP_ENABLED, FULLSCREEN_ENABLED, getFeatureFlag } from '../../../base/flags';
@@ -116,6 +116,7 @@ class Conference extends AbstractConference<Props, *> {
         this._onClick = this._onClick.bind(this);
         this._onHardwareBackPress = this._onHardwareBackPress.bind(this);
         this._setToolboxVisible = this._setToolboxVisible.bind(this);
+        this._panelPosition = new Animated.Value(0)
     }
 
     /**
@@ -162,7 +163,7 @@ class Conference extends AbstractConference<Props, *> {
         );
     }
 
-    _onClick: () => void;
+   
 
     /**
      * Changes the value of the toolboxVisible state, thus allowing us to switch
@@ -172,6 +173,19 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {void}
      */
     _onClick() {
+        let movedPosition = 0;
+        if (!this.props._toolboxVisible) {
+            movedPosition = 130;
+        }
+        Animated.spring(
+            this._panelPosition,
+            {
+                toValue: movedPosition,
+                velocity: 3,
+                tension: 2,
+                friction: 32,
+            }
+        ).start();
         this._setToolboxVisible(!this.props._toolboxVisible);
     }
 
@@ -273,9 +287,9 @@ class Conference extends AbstractConference<Props, *> {
                         </TintedView>
                 }
 
-                <View
+                <Animated.View
                     pointerEvents = 'box-none'
-                    style = { styles.toolboxAndFilmstripContainer }>
+                    style = { [styles.toolboxAndFilmstripContainer, {transform: [{translateY: this._panelPosition}]}] }>
 
                     <Captions onPress = { this._onClick } />
 
@@ -287,7 +301,7 @@ class Conference extends AbstractConference<Props, *> {
                     { <Filmstrip onClick = { this._onClick }/> }
                     <Toolbox />
                     
-                </View>
+                </Animated.View>
 
                 <SafeAreaView
                     pointerEvents = 'box-none'
