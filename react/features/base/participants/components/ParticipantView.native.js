@@ -232,9 +232,16 @@ class ParticipantView extends Component<Props> {
                         videoTrack = { videoTrack }
                         waitForVideoStarted = { false }
                         zOrder = { this.props.zOrder }
-                        zoomEnabled = { this.props.zoomEnabled } /> }
+                        zoomEnabled = { this.props.zoomEnabled } />
+                        }
 
-                { !renderYoutubeLargeVideo && !renderVideo
+                { !renderYoutubeLargeVideo && !renderVideo && typeof(videoTrack)!=="undefined" && videoTrack?.videoStarted 
+                    && <View style = { styles.avatarContainer }>
+                        <Avatar
+                            participantId = { this.props.participantId }
+                            size = { this.props.avatarSize } />
+                    </View> }
+                    { !renderYoutubeLargeVideo && !renderVideo && typeof(videoTrack)!=="undefined" && !videoTrack?.videoStarted 
                     && <View style = { styles.avatarContainer }>
                         <Avatar
                             participantId = { this.props.participantId }
