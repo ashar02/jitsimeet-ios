@@ -123,6 +123,8 @@ type Props = {
      */
     zOrder: number,
 
+    _audioOnly: boolean,
+
     /**
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
@@ -194,7 +196,8 @@ class ParticipantView extends Component<Props> {
             _videoTrack: videoTrack,
             disableVideo,
             onPress,
-            tintStyle
+            tintStyle,
+            _audioOnly
         } = this.props;
 
         // If the connection has problems, we will "tint" the video / avatar.
@@ -210,6 +213,7 @@ class ParticipantView extends Component<Props> {
 
         const renderYoutubeLargeVideo = _isFakeParticipant && !disableVideo;
 
+        
         return (
             <Container
                 onClick = { renderVideo || renderYoutubeLargeVideo ? undefined : onPress }
@@ -235,18 +239,12 @@ class ParticipantView extends Component<Props> {
                         zoomEnabled = { this.props.zoomEnabled } />
                         }
 
-                { !renderYoutubeLargeVideo && !renderVideo && typeof(videoTrack)!=="undefined" && videoTrack?.videoStarted 
-                    && <View style = { styles.avatarContainer }>
+                { !renderYoutubeLargeVideo && !renderVideo && _audioOnly || videoTrack&&videoTrack.muted ?
+                     <View style = { styles.avatarContainer }>
                         <Avatar
                             participantId = { this.props.participantId }
                             size = { this.props.avatarSize } />
-                    </View> }
-                    { !renderYoutubeLargeVideo && !renderVideo && typeof(videoTrack)!=="undefined" && !videoTrack?.videoStarted 
-                    && <View style = { styles.avatarContainer }>
-                        <Avatar
-                            participantId = { this.props.participantId }
-                            size = { this.props.avatarSize } />
-                    </View> }
+                    </View>:<></> }
 
                 { useTint
 
@@ -275,6 +273,7 @@ class ParticipantView extends Component<Props> {
 function _mapStateToProps(state, ownProps) {
     const { disableVideo, participantId } = ownProps;
     const participant = getParticipantById(state, participantId);
+    const audioOnly = state['features/base/audio-only'].enabled;
     let connectionStatus;
     let participantName;
 
@@ -289,7 +288,8 @@ function _mapStateToProps(state, ownProps) {
             getTrackByMediaTypeAndParticipant(
                 state['features/base/tracks'],
                 MEDIA_TYPE.VIDEO,
-                participantId)
+                participantId),
+        _audioOnly: audioOnly
     };
 }
 
