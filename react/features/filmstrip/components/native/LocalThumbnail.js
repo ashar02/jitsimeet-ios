@@ -35,6 +35,9 @@ function LocalThumbnail(props: Props) {
                 LayoutAnimation.spring();
                 setBoxWidth(boxWidth == 100 ? 140 : 100);
                 setBoxHeight(boxHeight == 300 ? 390 : 300)
+            } else if(props.participantsCount > 2){
+                setBoxWidth(boxWidth == 100 ? 140 : 100);
+                setBoxHeight(boxHeight == 100 ? 140 : 100)
             }
         }
 
