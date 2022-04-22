@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { NativeModules, SafeAreaView, StatusBar, View, Animated } from 'react-native';
+import { NativeModules, SafeAreaView, StatusBar, View, Animated, Text } from 'react-native';
 
 import { appNavigate } from '../../../app/actions';
 import { PIP_ENABLED, FULLSCREEN_ENABLED, getFeatureFlag } from '../../../base/flags';
@@ -263,6 +263,8 @@ class Conference extends AbstractConference<Props, *> {
 
         return (
             <>
+
+                
                 {/*
                   * The LargeVideo is the lowermost stacking layer.
                   */
@@ -306,6 +308,7 @@ class Conference extends AbstractConference<Props, *> {
                 <SafeAreaView
                     pointerEvents = 'box-none'
                     style = { styles.navBarSafeView }>
+                        <Text style={{color: '#C4C4C4', textAlign: 'center', fontSize:12, lineHeight: 12}}>End-to-end Encrypted</Text>
                     <NavigationBar />
                     { this._renderNotificationsContainer() }
                     <KnockingParticipantList />
