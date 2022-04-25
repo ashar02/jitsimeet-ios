@@ -70,7 +70,6 @@ function LocalThumbnail(props: Props) {
         //     } 
         // }
         const animateCurrentUserBoxSizeOnSlidingPanel  = (isToolbarHide) => {
-            console.log("is tool bar hide", isToolbarHide);
             if(props.participantsCount == 2 && isToolbarHide){
                 LayoutAnimation.spring();
                 setBoxWidth(160);
