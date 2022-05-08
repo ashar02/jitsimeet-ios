@@ -27,6 +27,7 @@ static NSString * const openChatAction = @"org.jitsi.meet.OPEN_CHAT";
 static NSString * const closeChatAction = @"org.jitsi.meet.CLOSE_CHAT";
 static NSString * const sendChatMessageAction = @"org.jitsi.meet.SEND_CHAT_MESSAGE";
 static NSString * const setVideoMutedAction = @"org.jitsi.meet.SET_VIDEO_MUTED";
+static NSString * const highlightChatButtonAction = @"org.jitsi.meet.HIGHLIGHT_CHAT_BUTTON";
 
 @implementation ExternalAPI
 
@@ -49,7 +50,8 @@ RCT_EXPORT_MODULE();
         @"OPEN_CHAT": openChatAction,
         @"CLOSE_CHAT": closeChatAction,
         @"SEND_CHAT_MESSAGE": sendChatMessageAction,
-        @"SET_VIDEO_MUTED" : setVideoMutedAction
+        @"SET_VIDEO_MUTED" : setVideoMutedAction,
+        @"HIGHLIGHT_CHAT_BUTTON" : highlightChatButtonAction
     };
 };
 
@@ -73,7 +75,8 @@ RCT_EXPORT_MODULE();
               openChatAction,
               closeChatAction,
               sendChatMessageAction,
-              setVideoMutedAction
+              setVideoMutedAction,
+              highlightChatButtonAction
     ];
 }
 
@@ -202,5 +205,10 @@ RCT_EXPORT_METHOD(sendEvent:(NSString *)name
     [self sendEventWithName:setVideoMutedAction body:data];
 }
 
+- (void)highlightChatButton:(BOOL)highlight {
+    NSDictionary *data = @{ @"highlight": [NSNumber numberWithBool:highlight]};
+
+    [self sendEventWithName:highlightChatButtonAction body:data];
+}
 
 @end
