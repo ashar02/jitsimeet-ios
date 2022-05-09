@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { NativeModules, SafeAreaView, StatusBar, View, Animated, Text } from 'react-native';
+import { NativeModules, SafeAreaView, StatusBar, View, Animated, Text, PanResponder } from 'react-native';
 
 import { appNavigate } from '../../../app/actions';
 import { PIP_ENABLED, FULLSCREEN_ENABLED, getFeatureFlag } from '../../../base/flags';
@@ -116,7 +116,24 @@ class Conference extends AbstractConference<Props, *> {
         this._onClick = this._onClick.bind(this);
         this._onHardwareBackPress = this._onHardwareBackPress.bind(this);
         this._setToolboxVisible = this._setToolboxVisible.bind(this);
-        this._panelPosition = new Animated.Value(0)
+        this._panelPosition = new Animated.Value(0);
+        this.pan = new Animated.ValueXY();
+        this.panResponder = PanResponder.create({
+            onMoveShouldSetPanResponder: () => true,
+            onPanResponderGrant: () => {
+              this.pan.setOffset({
+                x: this.pan.x._value,
+                y: this.pan.y._value
+              });
+            },
+            onPanResponderMove: Animated.event([
+              null,
+              { dx: this.pan.x, dy: this.pan.y }
+            ]),
+            onPanResponderRelease: () => {
+              this.pan.flattenOffset();
+            }
+          });
     }
 
     /**
@@ -300,7 +317,15 @@ class Conference extends AbstractConference<Props, *> {
                     </Container> } */}
 
                     <LonelyMeetingExperience />
+                    <Animated.View
+                        style={{
+                            transform: [{ translateX: this.pan.x }, { translateY: this.pan.y }]
+                        }}
+                        {...this.panResponder.panHandlers}
+                    >
                     { <Filmstrip onClick = { this._onClick }/> }
+                    </Animated.View>
+                    
                     <Toolbox />
                     
                 </Animated.View>
