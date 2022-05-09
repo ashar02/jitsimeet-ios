@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useEffect, useState, useRef } from 'react';
-import { View, NativeModules, LayoutAnimation, Animated, PanResponder, TouchableWithoutFeedback } from 'react-native';
+import { View, NativeModules, LayoutAnimation } from 'react-native';
 
 import { getLocalParticipant } from '../../../base/participants';
 import { connect } from '../../../base/redux';
@@ -35,28 +35,6 @@ function LocalThumbnail(props: Props) {
         const { _localParticipant, participantsCount } = props;
         const [boxWidth, setBoxWidth] = useState(0);
         const [boxHeight, setBoxHeight] = useState(0);
-        const pan = useRef(new Animated.ValueXY()).current;
-
-        const panResponder = useRef(
-            PanResponder.create({
-                onMoveShouldSetPanResponder: () => true,
-                onPanResponderGrant: () => {
-                    pan.setOffset({
-                        x: pan.x._value,
-                        y: pan.y._value
-                    });
-                },
-                onPanResponderMove: Animated.event(
-                    [
-                        null,
-                        { dx: pan.x, dy: pan.y }
-                    ]
-                ),
-                onPanResponderRelease: () => {
-                    pan.flattenOffset();
-                }
-            })
-        ).current;
 
         // const animateCurrentUserBoxSize  = () => {
         //     if(props.participantsCount == 2){
@@ -71,20 +49,20 @@ function LocalThumbnail(props: Props) {
         // }
         const animateCurrentUserBoxSizeOnSlidingPanel  = (isToolbarHide) => {
             if(props.participantsCount == 2 && isToolbarHide){
-                LayoutAnimation.spring();
+                //LayoutAnimation.spring();
                 setBoxWidth(160);
                 setBoxHeight(270)
             } else if(props.participantsCount == 2 && !isToolbarHide){
-                LayoutAnimation.spring();
+                //LayoutAnimation.spring();
                 setBoxWidth(100);
                 setBoxHeight(190)
             } else if(props.participantsCount > 2 && isToolbarHide){
-                LayoutAnimation.spring();
+                //LayoutAnimation.spring();
                 setBoxWidth(135);
                 setBoxHeight(140)
             }
             else if(props.participantsCount > 2 && !isToolbarHide){
-                LayoutAnimation.spring();
+                //LayoutAnimation.spring();
                 setBoxWidth(100);
                 setBoxHeight(100)
             }
@@ -119,21 +97,14 @@ function LocalThumbnail(props: Props) {
        
 
         return (
-            <Animated.View
-                style={{
-                    transform: [{ translateX: pan.x  }, { translateY: pan.y }]
-                }}
-                {...panResponder.panHandlers}
-            >
-                <View style={{ aspectRatio: participantsCount <= 2 ? 0.6 : 1 }}>
-                        <Thumbnail participant={_localParticipant}
-                            styleOverrides={styleOverrides}
-                            renderDisplayName={participantsCount == 3 ? false : participantsCount > 5 ? false : true}
-                            tileView={true}
-                            isLocalUser={true}
-                        />
-                </View>
-            </Animated.View>
+            <View style={{ aspectRatio: participantsCount <= 2 ? 0.6 : 1 }}>
+                <Thumbnail participant={_localParticipant}
+                    styleOverrides={styleOverrides}
+                    renderDisplayName={participantsCount == 3 ? false : participantsCount > 5 ? false : true}
+                    tileView={true}
+                    isLocalUser={true}
+                />
+            </View>
         );
     }
 
