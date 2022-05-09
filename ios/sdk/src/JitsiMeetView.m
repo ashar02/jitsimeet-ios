@@ -160,6 +160,11 @@ static void initializeViewsMap() {
     [externalAPI sendSetVideoMuted:muted];
 }
 
+- (void)highlightChatButton:(BOOL)highlight {
+    ExternalAPI *externalAPI = [[JitsiMeet sharedInstance] getExternalAPI];
+    [externalAPI highlightChatButton:highlight];
+}
+
 #pragma mark Private methods
 
 /**
