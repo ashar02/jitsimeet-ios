@@ -107,7 +107,9 @@ type Props = {
     /**
      * If true, it tells the thumbnail that it needs to behave differently. E.g. react differently to a single tap.
      */
-    tileView?: boolean
+    tileView?: boolean,
+
+    _participantCount: number
 };
 
 /**
@@ -131,7 +133,8 @@ function Thumbnail(props: Props) {
         renderDisplayName,
         tileView,
         isLocalUser,
-        onClick
+        onClick,
+        _participantCount
     } = props;
 
     const participantId = participant.id;
@@ -153,7 +156,7 @@ function Thumbnail(props: Props) {
             touchFeedback = { false }>
 
             <ParticipantView
-                avatarSize = { isLocalUser ? AVATAR_SIZE : AVATAR_SIZE * 2 }
+                avatarSize = { isLocalUser ? AVATAR_SIZE : _participantCount == 3 || _participantCount == 4 ? AVATAR_SIZE * 3 : AVATAR_SIZE * 2 }
                 disableVideo = { isScreenShare || participant.isFakeParticipant }
                 participantId = { participantId }
                 style = {[_styles.participantViewStyle, { borderWidth: renderDominantSpeakerIndicator && videoMuted  ? 2 : 0, borderColor:'#D2A622', borderRadius:15} ]}
@@ -280,7 +283,8 @@ function _mapStateToProps(state, ownProps) {
         _renderDominantSpeakerIndicator: renderDominantSpeakerIndicator,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
-        _videoTrack: videoTrack
+        _videoTrack: videoTrack,
+        _participantCount: participantCount
     };
 }
 
