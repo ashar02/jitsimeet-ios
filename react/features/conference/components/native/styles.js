@@ -14,7 +14,7 @@ export default {
      */
     conference: fixAndroidViewClipping({
         alignSelf: 'stretch',
-        backgroundColor: '#040404',
+        backgroundColor: ColorPalette.appBackground,
         flex: 1
     }),
 
@@ -93,12 +93,14 @@ export default {
     },
 
     navBarWrapper: {
-        alignItems: 'center',
         flex: 1,
         flexDirection: 'row',
-        height: 44,
         justifyContent: 'space-between',
-        paddingHorizontal: 14
+        alignItems: 'center',
+        marginTop: 15,
+        marginLeft: 20,
+        marginRight: 28
+        
     },
 
     roomTimer: {
@@ -137,6 +139,19 @@ export default {
         paddingHorizontal: 48,
         position: 'absolute',
         right: 0
+    },
+    nameLabel: {
+        backgroundColor: ColorPalette.seaGreen,
+        borderRadius: 16
+    },
+    nameText:{
+        fontSize: 12,
+        color: ColorPalette.white,
+        fontWeight: '400',
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingTop: 3,
+        paddingBottom: 3
     },
 
     roomNameWrapper: {

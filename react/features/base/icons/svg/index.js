@@ -23,6 +23,7 @@ export { default as IconCameraEmptyDisabled } from './camera-empty-disabled.svg'
 export { default as IconCameraRefresh } from './camera-refresh.svg';
 export { default as IconCancelSelection } from './cancel.svg';
 export { default as IconChat } from './chat.svg';
+export { default as SecureIcon } from './secure.svg';
 export { default as IconChatSend } from './send.svg';
 export { default as IconChatUnread } from './chat-unread.svg';
 export { default as IconCheck } from './check.svg';
@@ -38,6 +39,7 @@ export { default as IconDeviceBluetooth } from './bluetooth.svg';
 export { default as IconDeviceEarpiece } from './phone-talk.svg';
 export { default as IconDeviceHeadphone } from './headset.svg';
 export { default as IconDeviceSpeaker } from './volume.svg';
+export {default as IconRecording } from './recording.svg';
 export { default as IconDeviceDocument } from './document.svg';
 export { default as IconDominantSpeaker } from './dominant-speaker.svg';
 export { default as IconDownload } from './download.svg';
