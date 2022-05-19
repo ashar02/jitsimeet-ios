@@ -62,15 +62,61 @@ const styles = {
      * The style of the toolbar.
      */
     toolbox: {
-        alignItems: 'center',
-        backgroundColor: 'transparent',
-        borderTopLeftRadius: 3,
-        borderTopRightRadius: 3,
+        backgroundColor: ColorPalette.appBackground,
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+        borderWidth: 1,
+        borderColor: ColorPalette.gray,
+        borderRadius: 20
+    },
+    lineSeperator: {
+        width: Dimensions.get('screen').width - 70,
+        height: 1.3,
+        backgroundColor: ColorPalette.gray,
+        alignSelf: 'center',
+        marginTop: 8,
+        marginBottom: 12
+    },
+    toolBoxSection:{
         flexDirection: 'row',
-        flexGrow: 0,
-        justifyContent: 'space-between',
-        paddingHorizontal: 0,
-        paddingVertical: 5,
+       
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        paddingBottom: 12,
+        backgroundColor: ColorPalette.appBackground
+    },
+    topBar: {
+        width: 49,
+        height: 1.6,
+        backgroundColor: ColorPalette.gray,
+        borderRadius: 10,
+        alignSelf: 'center',
+        marginTop: 5,
+        marginBottom: 0
+    },
+
+    customeButton: {
+        borderRadius: 16,
+        borderWidth: 0,
+        flex: 0,
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        marginHorizontal: 17,
+        marginTop: 6,
+        alignItems: 'center',
+        width: 32,
+    },
+    iconStyle: {
+        fontSize:20,
+        //color:'#fff'
+    },
+    iconTitle: {
+        fontSize: 10,
+        color: '#fff',
+        fontWeight: '400',
+        paddingTop: 6,
+        lineHeight: 9
     },
 
     /**
@@ -80,13 +126,13 @@ const styles = {
         flexDirection: 'column',
         flexGrow: 0,
         width: '100%',
-        maxWidth: Dimensions.get('screen').width - 14,
+        maxWidth: Dimensions.get('screen').width - 50,
         height:110,
-        maxheight:130,
+        maxheight:138,
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor:'#242424',
-        borderRadius:35,
+        borderRadius:20,
         alignSelf:'center'
     }
 };
@@ -119,19 +165,19 @@ ColorSchemeRegistry.register('Toolbox', {
     hangupButtonStyles: {
         iconStyle: {
             color: ColorPalette.darkGrey,
-            fontSize: 30,
-            marginTop: 2,
-            marginLeft:2,
+            fontSize: 35,
+           
             fontWeight:'bold'
         },
         style: {
             flex:0,
-            backgroundColor: schemeColor('hangup'),
+            backgroundColor: ColorPalette.red,
             width:62,
-            height:32,
-            borderRadius:16,
+            height:24,
+            borderRadius:8,
             marginRight:15,
-            alignItems:'center'
+            alignItems:'center',
+            justifyContent: 'center'
         },
         underlayColor: ColorPalette.buttonUnderlay
     },

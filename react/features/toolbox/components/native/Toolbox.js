@@ -1,11 +1,11 @@
 // @flow
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { SafeAreaView, View, Text, Modal, TouchableWithoutFeedback, Dimensions, Animated } from 'react-native';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { connect } from '../../../base/redux';
-import { StyleType } from '../../../base/styles';
+import { ColorPalette, StyleType } from '../../../base/styles';
 import { ChatButton } from '../../../chat';
 import { InviteButton } from '../../../invite';
 import { TileViewButton } from '../../../video-layout';
@@ -87,6 +87,23 @@ function Toolbox(props: Props) {
         ]
     };
     const [modalVisible, setModalVisible] = useState(false);
+    const [_panelPosition] = useState(new Animated.Value(0));
+
+    useEffect(()=>{
+        let movedPosition = 0;
+        if (!props._visible) {
+            movedPosition = 74;
+        }
+        Animated.spring(
+            _panelPosition,
+            {
+                toValue: movedPosition,
+                velocity: 3,
+                tension: 2,
+                friction: 32,
+            }
+        ).start();
+    }, [props._visible])
     return (
         <View>
         <Animated.View
@@ -95,15 +112,23 @@ function Toolbox(props: Props) {
             <SafeAreaView
                 accessibilityRole = 'toolbar'
                 pointerEvents = 'box-none'>
-                <TouchableWithoutFeedback onPress={()=> setModalVisible(true)}>
-                <View style={{marginLeft:14, marginTop:7.5, flexDirection:'row',  justifyContent:'space-between', alignItems:'center'}}>
+                
+                <View style = {[ styles.toolbox ]}>
+                
+                <View
+                //style={{transform: [{translateY: _panelPosition}]}}
+                >
+                <View style={styles.topBar}></View>
+                <View style={{marginLeft:14,
+                    
+                    marginTop:0, flexDirection:'row',  justifyContent:'space-between', alignItems:'center'}}>
                 <View style={{alignItems:'center', flexDirection:'row'}}>
                 <Avatar
                     participantId = { props?._participant?.id }
                     size = { 44 } />
                    <View>
                 <Text style={{color:'#fff', fontWeight:'bold', fontSize:15, paddingLeft:6}}>{props?._participant?.name}</Text>
-                <Text style={{color:'#fff', fontSize:12, paddingLeft:6}}>Circleit {props._videoMuted ? 'Audio' : 'Video'} Call</Text>
+                <Text style={{color: ColorPalette.gray, fontSize:12, paddingLeft:6}}>Circleit {props._videoMuted ? 'Audio' : 'Video'} Call</Text>
                 </View>
                 </View>
                 <View>
@@ -111,75 +136,43 @@ function Toolbox(props: Props) {
                     styles = { hangupButtonStyles } />
                 </View>
                 </View>
-                </TouchableWithoutFeedback>
-                <View style = { styles.toolbox }>
+                <View style={styles.lineSeperator}></View>
+                </View>
+                <View style={styles.toolBoxSection}>
+                <View style={{alignItems: 'center'}}>
                 <ToggleCameraButton
-                    styles = {{iconStyle:{fontSize:24, color: '#fff'}, style: {borderRadius: 20,
-                        borderWidth: 0,
-                        flex: 0,
-                        flexDirection: 'row',
-                        height: 40,
-                        justifyContent: 'center',
-                        marginHorizontal: 17,
-                        marginTop: 6,
-                        alignItems:'center',
-                        width: 40,
-                        backgroundColor: 'rgba(115, 115, 115, 0.5)'}}}
+                    styles = {{iconStyle:styles.iconStyle, style: [styles.customeButton,{
+                        backgroundColor: ColorPalette.magenta}]}}
                      />
-                <AudioRouteButton 
-                styles = {{iconStyle:{fontSize:24, color:'#000'}, style: {borderRadius: 20,
-                    borderWidth: 0,
-                    flex: 0,
-                    flexDirection: 'row',
-                    height: 40,
-                    justifyContent: 'center',
-                    marginHorizontal: 16,
-                    marginTop: 6,
-                    alignItems:'center',
-                    width: 40,
-                    backgroundColor: 'rgba(225, 225, 225, 1)'}}}
-                />
-                <VideoMuteButton
-                    styles = {{iconStyle:{fontSize:24, color: props._videoMuted ? '#fff' : '#000'}, style: {borderRadius: 20,
-                        borderWidth: 0,
-                        flex: 0,
-                        flexDirection: 'row',
-                        height: 40,
-                        justifyContent: 'center',
-                        marginHorizontal: 18,
-                        marginTop: 6,
-                        alignItems:'center',
-                        width: 40,
-                        backgroundColor: props._videoMuted ? 'rgba(115, 115, 115, 0.5)' :'rgba(225, 225, 225, 1)'}}}
-                     />
-                
+                <Text style={styles.iconTitle}>FLIP</Text>
+                </View>
+                <View style={{alignItems: 'center'}}>
                 <AudioMuteButton
-                    styles = {{iconStyle:{fontSize:24, color:props._audioMuted ? '#fff' : '#000'}, style: {borderRadius: 20,
-                        borderWidth: 0,
-                        flex: 0,
-                        flexDirection: 'row',
-                        height: 40,
-                        justifyContent: 'center',
-                        marginHorizontal: 16,
-                        marginTop: 6,
-                        alignItems:'center',
-                        width: 40,
-                        backgroundColor: props._audioMuted ? 'rgba(115, 115, 115, 0.5)' :'rgba(225, 225, 225, 1)'}}}
+                    styles = {{iconStyle:styles.iconStyle, style: [styles.customeButton,{
+                        backgroundColor: props._audioMuted ? ColorPalette.red : ColorPalette.magenta}]}}
                     />
+                <Text style={styles.iconTitle}>MUTE</Text>
+                </View>
+                <View style={{alignItems: 'center'}}>
+                <VideoMuteButton
+                    styles = {{iconStyle:styles.iconStyle, style: [styles.customeButton,{
+                        backgroundColor: props._videoMuted ? ColorPalette.red : ColorPalette.magenta}]}}
+                     />
+                <Text style={styles.iconTitle}>VIDEO</Text>
+                </View>
+                <View style={{alignItems: 'center'}}>
                 { true
                       && <ChatButton
-                            styles = { {iconStyle:{fontSize:24, color: '#fff'}, style: {borderRadius: 20,
-                            borderWidth: 0,
-                            flex: 0,
-                            flexDirection: 'row',
-                            height: 40,
-                            justifyContent: 'center',
-                            marginHorizontal: 16,
-                            marginTop: 6,
-                            alignItems:'center',
-                            width: 40,
-                            backgroundColor: 'rgba(115, 115, 115, 0.5)'}} }
+                            styles = { {iconStyle:styles.iconStyle, style: [styles.customeButton,{
+                            backgroundColor: ColorPalette.magenta }]} }
                              />}
+                <Text style={styles.iconTitle}>CHAT</Text>
+                </View>
+                <View style={{alignItems: 'center'}}>
+                <InviteButton styles = { {iconStyle:styles.iconStyle, style: [styles.customeButton,{
+                            backgroundColor: ColorPalette.magenta }]} } />
+                <Text style={styles.iconTitle}>INVITE</Text>
+                </View>
 
                 { additionalButtons.has('raisehand')
                       && <RaiseHandButton
@@ -195,6 +188,7 @@ function Toolbox(props: Props) {
                     styles = { buttonStylesBorderless }
                     toggledStyles = { toggledButtonStyles } /> */}
                 
+                </View>
                 </View>
                
             </SafeAreaView>
