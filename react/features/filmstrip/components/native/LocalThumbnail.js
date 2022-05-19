@@ -9,6 +9,7 @@ import { connect } from '../../../base/redux';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 import { isToolboxVisible } from '../../../toolbox/functions.native';
+import { ColorPalette } from '../../../base/styles';
 
 type Props = {
 
@@ -90,9 +91,10 @@ function LocalThumbnail(props: Props) {
             maxWidth: boxWidth,
             width: boxWidth,
             borderRadius:participantsCount == 2 ? 12 : 16,
-            marginRight: 8,
-            marginBottom:15,
-            alignSelf: 'center'
+            marginRight: 26,
+            marginBottom:0,
+            alignSelf: 'center',
+            borderColor: ColorPalette.gray
         };
        
 

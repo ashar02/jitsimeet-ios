@@ -11,7 +11,8 @@ export default {
      */
     avatarContainer: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flex: 1
     },
 
     /**
