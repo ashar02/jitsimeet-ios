@@ -85,7 +85,7 @@ const NavigationBar = (props: Props) => {
                 </View>
                 <Labels />
             </View> */}
-            <View>
+            <View style={{marginLeft: -8}}>
             <IconRecording />
             </View>
             <View style={styles.nameLabel}>
