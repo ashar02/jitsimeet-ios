@@ -192,19 +192,6 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {void}
      */
     _onClick() {
-        let movedPosition = 0;
-        if (!this.props._toolboxVisible) {
-            movedPosition = 130;
-        }
-        Animated.spring(
-            this._panelPosition,
-            {
-                toValue: movedPosition,
-                velocity: 3,
-                tension: 2,
-                friction: 32,
-            }
-        ).start();
         this._setToolboxVisible(!this.props._toolboxVisible);
     }
 
@@ -308,9 +295,9 @@ class Conference extends AbstractConference<Props, *> {
                         </TintedView>
                 }
 
-                <Animated.View
+                <View
                     pointerEvents = 'box-none'
-                    style = { [styles.toolboxAndFilmstripContainer, {transform: [{translateY: this._panelPosition}]}] }>
+                    style = { styles.toolboxAndFilmstripContainer }>
 
                     <Captions onPress = { this._onClick } />
 
@@ -330,7 +317,7 @@ class Conference extends AbstractConference<Props, *> {
                     
                     <Toolbox />
                     
-                </Animated.View>
+                </View>
 
                 <SafeAreaView
                     pointerEvents = 'box-none'
