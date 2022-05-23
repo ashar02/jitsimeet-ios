@@ -319,14 +319,14 @@ class Conference extends AbstractConference<Props, *> {
                     </Container> } */}
 
                     <LonelyMeetingExperience />
-                    <Animated.View
+                    {/* <Animated.View
                         style={{
                             transform: [{ translateX: this.pan.x }, { translateY: this.pan.y }]
                         }}
                         {...this.panResponder.panHandlers}
-                    >
+                    > */}
                     { <Filmstrip onClick = { this._onClick }/> }
-                    </Animated.View>
+                    {/* </Animated.View> */}
                     
                     <Toolbox />
                     
