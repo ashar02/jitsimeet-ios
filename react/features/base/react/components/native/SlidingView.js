@@ -287,7 +287,10 @@ export default class SlidingView extends PureComponent<Props, State> {
                     /* config */ {
                         duration: 200,
                         toValue: show ? toValue : 0,
-                        useNativeDriver: true
+                        useNativeDriver: true,
+                        velocity: 3,
+                        tension: 2,
+                        friction: 32,
                     })
                 .start(({ finished }) => {
                     finished && this._mounted && !show

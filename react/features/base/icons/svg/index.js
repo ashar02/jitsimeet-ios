@@ -25,6 +25,7 @@ export { default as IconCancelSelection } from './cancel.svg';
 export { default as IconChat } from './chat.svg';
 export { default as SecureIcon } from './secure.svg';
 export { default as IconChatSend } from './send.svg';
+export { default as IconLeaveCall } from './leave.svg';
 export { default as IconChatUnread } from './chat-unread.svg';
 export { default as IconCheck } from './check.svg';
 export { default as IconClose } from './close.svg';
