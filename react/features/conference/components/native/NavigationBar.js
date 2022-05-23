@@ -86,23 +86,13 @@ const NavigationBar = (props: Props) => {
                 <Labels />
             </View> */}
             <View style={{marginLeft: -8}}>
-            <IconRecording />
             </View>
             <View style={styles.nameLabel}>
                 <Text style={styles.nameText}>{props?._participant?.name}</Text>
             </View>
 
             <View>
-            <AudioRouteButton 
-                styles = {{iconStyle:{fontSize:24}, style: {borderRadius: 20,
-                    borderWidth: 0,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: 36,
-                   
-                    width: 36,
-                    backgroundColor: ColorPalette.searGreenLight}}}
-                />
+           
             </View>
 
         </View>

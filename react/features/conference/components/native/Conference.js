@@ -192,6 +192,19 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {void}
      */
     _onClick() {
+        let movedPosition = 0;
+        if (!this.props._toolboxVisible) {
+            movedPosition = 174;
+        }
+        Animated.spring(
+            this._panelPosition,
+            {
+                toValue: movedPosition,
+                velocity: 3,
+                tension: 2,
+                friction: 32,
+            }
+        ).start();
         this._setToolboxVisible(!this.props._toolboxVisible);
     }
 
@@ -295,9 +308,9 @@ class Conference extends AbstractConference<Props, *> {
                         </TintedView>
                 }
 
-                <View
+                <Animated.View
                     pointerEvents = 'box-none'
-                    style = { styles.toolboxAndFilmstripContainer }>
+                    style = { [styles.toolboxAndFilmstripContainer, {transform: [{translateY: this._panelPosition}]}] }>
 
                     <Captions onPress = { this._onClick } />
 
@@ -317,15 +330,12 @@ class Conference extends AbstractConference<Props, *> {
                     
                     <Toolbox />
                     
-                </View>
+                </Animated.View>
 
                 <SafeAreaView
                     pointerEvents = 'box-none'
                     style = { styles.navBarSafeView }>
-                        <View style={{flexDirection: 'row', alignSelf: 'center', alignItems: 'center'}}>
-                            <SecureIcon />
-                        <Text style={{color: ColorPalette.yellow, textAlign: 'center', fontSize:10, paddingLeft: 8, letterSpacing: 0.6, fontWeight: '500'}}>Secure Call</Text>
-                        </View>
+                       
                     <NavigationBar />
                     { this._renderNotificationsContainer() }
                     <KnockingParticipantList />
