@@ -11,6 +11,7 @@ import { InviteButton } from '../../../invite';
 import { TileViewButton } from '../../../video-layout';
 import { isToolboxVisible, getMovableButtons } from '../../functions.native';
 import AudioMuteButton from '../AudioMuteButton';
+import {SecureIcon} from '../../../base/icons';
 import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
 import { isLocalCameraTrackMuted } from '../../../base/tracks';
@@ -87,23 +88,6 @@ function Toolbox(props: Props) {
         ]
     };
     const [modalVisible, setModalVisible] = useState(false);
-    const [_panelPosition] = useState(new Animated.Value(0));
-
-    useEffect(()=>{
-        let movedPosition = 0;
-        if (!props._visible) {
-            movedPosition = 74;
-        }
-        Animated.spring(
-            _panelPosition,
-            {
-                toValue: movedPosition,
-                velocity: 3,
-                tension: 2,
-                friction: 32,
-            }
-        ).start();
-    }, [props._visible])
     return (
         <View>
         <Animated.View
@@ -112,23 +96,19 @@ function Toolbox(props: Props) {
             <SafeAreaView
                 accessibilityRole = 'toolbar'
                 pointerEvents = 'box-none'>
-                
-                <View style = {[ styles.toolbox ]}>
-                
-                <View
-                //style={{transform: [{translateY: _panelPosition}]}}
-                >
-                <View style={styles.topBar}></View>
-                <View style={{marginLeft:14,
-                    
-                    marginTop:0, flexDirection:'row',  justifyContent:'space-between', alignItems:'center'}}>
+               
+                <View style={styles.toolbox}>
+                <View style={{marginLeft:14,marginTop:0, flexDirection:'row',  justifyContent:'space-between', alignItems:'center'}}>
                 <View style={{alignItems:'center', flexDirection:'row'}}>
                 <Avatar
                     participantId = { props?._participant?.id }
-                    size = { 44 } />
+                    size = { 50 } />
                    <View>
-                <Text style={{color:'#fff', fontWeight:'bold', fontSize:15, paddingLeft:6}}>{props?._participant?.name}</Text>
-                <Text style={{color: ColorPalette.gray, fontSize:12, paddingLeft:6}}>Circleit {props._videoMuted ? 'Audio' : 'Video'} Call</Text>
+                <Text style={{color:'#fff', fontWeight:'bold', fontSize:15, paddingLeft:10}}>{props?._participant?.name}</Text>
+                <View style={{flexDirection: 'row', paddingLeft: 10, alignItems: 'center', paddingTop: 4}}>
+                <SecureIcon/>
+                <Text style={{color:'#fff', fontSize:12 }}> Secure {props._videoMuted ? 'Audio' : 'Video'} Call</Text>
+                </View>
                 </View>
                 </View>
                 <View>
@@ -136,9 +116,9 @@ function Toolbox(props: Props) {
                     styles = { hangupButtonStyles } />
                 </View>
                 </View>
-                <View style={styles.lineSeperator}></View>
-                </View>
-                <View style={styles.toolBoxSection}>
+               
+               
+                <View style = { styles.toolBoxSection }>
                 <View style={{alignItems: 'center'}}>
                 <ToggleCameraButton
                     styles = {{iconStyle:styles.iconStyle, style: [styles.customeButton,{
@@ -146,12 +126,25 @@ function Toolbox(props: Props) {
                      />
                 <Text style={styles.iconTitle}>FLIP</Text>
                 </View>
+                {/* <AudioRouteButton 
+                styles = {{iconStyle:styles.iconStyle, style: {borderRadius: 20,
+                    borderWidth: 0,
+                    flex: 0,
+                    flexDirection: 'row',
+                    height: 40,
+                    justifyContent: 'center',
+                    marginHorizontal: 16,
+                    marginTop: 6,
+                    alignItems:'center',
+                    width: 40,
+                    backgroundColor: 'rgba(225, 225, 225, 1)'}}}
+                /> */}
                 <View style={{alignItems: 'center'}}>
                 <AudioMuteButton
                     styles = {{iconStyle:styles.iconStyle, style: [styles.customeButton,{
                         backgroundColor: props._audioMuted ? ColorPalette.red : ColorPalette.magenta}]}}
                     />
-                <Text style={styles.iconTitle}>MUTE</Text>
+                    <Text style={styles.iconTitle}>MUTE</Text>
                 </View>
                 <View style={{alignItems: 'center'}}>
                 <VideoMuteButton
@@ -161,18 +154,25 @@ function Toolbox(props: Props) {
                 <Text style={styles.iconTitle}>VIDEO</Text>
                 </View>
                 <View style={{alignItems: 'center'}}>
-                { true
-                      && <ChatButton
-                            styles = { {iconStyle:styles.iconStyle, style: [styles.customeButton,{
-                            backgroundColor: ColorPalette.magenta }]} }
-                             />}
-                <Text style={styles.iconTitle}>CHAT</Text>
-                </View>
-                <View style={{alignItems: 'center'}}>
                 <InviteButton styles = { {iconStyle:styles.iconStyle, style: [styles.customeButton,{
                             backgroundColor: ColorPalette.magenta }]} } />
-                <Text style={styles.iconTitle}>INVITE</Text>
+                <Text style={styles.iconTitle}>ADD</Text>
                 </View>
+                
+                { false
+                      && <ChatButton
+                            styles = { {iconStyle:{fontSize:24, color: '#fff'}, style: {borderRadius: 20,
+                            borderWidth: 0,
+                            flex: 0,
+                            flexDirection: 'row',
+                            height: 40,
+                            justifyContent: 'center',
+                            marginHorizontal: 16,
+                            marginTop: 6,
+                            alignItems:'center',
+                            width: 40,
+                            backgroundColor: 'rgba(115, 115, 115, 0.5)'}} }
+                             />}
 
                 { additionalButtons.has('raisehand')
                       && <RaiseHandButton
@@ -184,13 +184,15 @@ function Toolbox(props: Props) {
                       && !_videoMuted && <ToggleCameraButton
                           styles = { buttonStylesBorderless }
                           toggledStyles = { backgroundToggledStyle } />} */}
-                {/* <OverflowMenuButton
-                    styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } /> */}
-                
+                <View style={{alignItems: 'center'}}>
+                <OverflowMenuButton
+                    styles =  { {iconStyle:styles.iconStyle, style: [styles.customeButton,{
+                        backgroundColor: ColorPalette.magenta }]} }
+                     />
+                <Text style={styles.iconTitle}>MORE</Text>
                 </View>
                 </View>
-               
+               </View>
             </SafeAreaView>
         </Animated.View>
             <Modal

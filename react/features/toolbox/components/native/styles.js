@@ -64,37 +64,42 @@ const styles = {
     toolbox: {
         backgroundColor: ColorPalette.appBackground,
         paddingHorizontal: 10,
-        paddingVertical: 2,
+        paddingTop: 14,
+        paddingBottom: 8,
         borderWidth: 1,
         borderColor: ColorPalette.gray,
         borderRadius: 20
     },
-    lineSeperator: {
-        width: Dimensions.get('screen').width - 70,
-        height: 1.3,
-        backgroundColor: ColorPalette.gray,
-        alignSelf: 'center',
-        marginTop: 8,
-        marginBottom: 12
+    overflowMenuContainer:{
+        width: 165,
+        height: 130,
+        backgroundColor: '#171717',
+        position: 'absolute',
+        bottom: 120,
+        right: 26,
+        borderWidth: 1.25,
+        borderColor: ColorPalette.gray,
+        borderRadius: 8
     },
     toolBoxSection:{
         flexDirection: 'row',
        
         justifyContent: 'space-around',
         alignItems: 'center',
-        paddingBottom: 12,
+        paddingTop: 6,
         backgroundColor: ColorPalette.appBackground
     },
-    topBar: {
-        width: 49,
-        height: 1.6,
-        backgroundColor: ColorPalette.gray,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginTop: 5,
-        marginBottom: 0
+    actionItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding:8
     },
-
+    actionTitle:{
+        color: '#C4C4C4',
+        fontSize: 10,
+        fontWeight: '500'
+    },
     customeButton: {
         borderRadius: 16,
         borderWidth: 0,
@@ -102,7 +107,7 @@ const styles = {
         flexDirection: 'row',
         height: 32,
         justifyContent: 'center',
-        marginHorizontal: 17,
+        //marginHorizontal: 17,
         marginTop: 6,
         alignItems: 'center',
         width: 32,
@@ -165,14 +170,13 @@ ColorSchemeRegistry.register('Toolbox', {
     hangupButtonStyles: {
         iconStyle: {
             color: ColorPalette.darkGrey,
-            fontSize: 35,
-           
+            fontSize: 38,
             fontWeight:'bold'
         },
         style: {
             flex:0,
             backgroundColor: ColorPalette.red,
-            width:62,
+            width:65,
             height:24,
             borderRadius:8,
             marginRight:15,
