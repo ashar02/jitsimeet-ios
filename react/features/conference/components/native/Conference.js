@@ -308,9 +308,9 @@ class Conference extends AbstractConference<Props, *> {
                         </TintedView>
                 }
 
-                <Animated.View
+                <View
                     pointerEvents = 'box-none'
-                    style = { [styles.toolboxAndFilmstripContainer, {transform: [{translateY: this._panelPosition}]}] }>
+                    style = { styles.toolboxAndFilmstripContainer }>
 
                     <Captions onPress = { this._onClick } />
 
@@ -330,7 +330,7 @@ class Conference extends AbstractConference<Props, *> {
                     
                     <Toolbox />
                     
-                </Animated.View>
+                </View>
 
                 <SafeAreaView
                     pointerEvents = 'box-none'
