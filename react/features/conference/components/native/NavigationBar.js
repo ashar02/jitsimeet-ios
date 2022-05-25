@@ -85,15 +85,12 @@ const NavigationBar = (props: Props) => {
                 </View>
                 <Labels />
             </View> */}
-            <View style={{marginLeft: -8}}>
-            </View>
+           
             <View style={styles.nameLabel}>
                 <Text style={styles.nameText}>{props?._participant?.name}</Text>
             </View>
 
-            <View>
            
-            </View>
 
         </View>
     );

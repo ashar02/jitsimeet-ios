@@ -89,15 +89,13 @@ export default {
         left: 0,
         position: 'absolute',
         right: 0,
-        top: 0
+        top: 70
     },
 
     navBarWrapper: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        marginTop: 20
+        alignSelf: 'center',
+        marginTop: 0
     },
 
     roomTimer: {
@@ -162,7 +160,7 @@ export default {
      * the {@link Toolbox}.
      */
     toolboxAndFilmstripContainer: {
-        bottom: 64,
+        bottom: 54,
         flexDirection: 'column',
         justifyContent: 'flex-end',
         left: 0,
