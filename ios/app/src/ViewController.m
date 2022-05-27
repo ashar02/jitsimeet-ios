@@ -100,6 +100,10 @@
     [self _onJitsiMeetViewDelegateEvent:@"CHAT_BUTTON_PRESSED" withData:data];
 }
 
+- (void)invitePeopleButtonPressed:(NSDictionary *)data {
+    [self _onJitsiMeetViewDelegateEvent:@"INVITE_PEOPLE_BUTTON_PRESSED" withData:data];
+}
+
 #if 0
 - (void)enterPictureInPicture:(NSDictionary *)data {
     [self _onJitsiMeetViewDelegateEvent:@"ENTER_PICTURE_IN_PICTURE" withData:data];

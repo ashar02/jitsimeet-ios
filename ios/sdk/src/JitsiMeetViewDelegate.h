@@ -118,4 +118,11 @@
  */
 - (void)chatButtonPressed:(NSDictionary *)data;
 
+/**
+ * Called when invite people pressed.
+ *
+ * The `data` dictionary contains empty key.
+ */
+- (void)invitePeopleButtonPressed:(NSDictionary *)data;
+
 @end
