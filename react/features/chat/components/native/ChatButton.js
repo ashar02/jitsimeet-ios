@@ -9,7 +9,6 @@ import {
     AbstractButton,
     type AbstractButtonProps
 } from '../../../base/toolbox/components';
-import { closeChat } from '../../actions.native';
 import { getUnreadCount } from '../../functions';
 
 const { ExternalAPI } = NativeModules;
@@ -41,7 +40,6 @@ class ChatButton extends AbstractButton<Props, *> {
      * @returns {void}
      */
     _handleClick() {
-        this.props.dispatch(closeChat());
     }
 
     /**
