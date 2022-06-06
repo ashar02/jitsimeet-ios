@@ -39,6 +39,7 @@ import LonelyMeetingExperience from './LonelyMeetingExperience';
 import NavigationBar from './NavigationBar';
 import styles from './styles';
 import { ColorPalette } from '../../../base/styles';
+import { VideoTileView } from '../../../filmstrip/components/native';
 
 
 /**
@@ -98,7 +99,9 @@ type Props = AbstractProps & {
     /**
      * The redux {@code dispatch} function.
      */
-    dispatch: Function
+    dispatch: Function,
+
+    _isAudioCall: boolean
 };
 
 /**
@@ -273,13 +276,13 @@ class Conference extends AbstractConference<Props, *> {
             _connecting,
             _largeVideoParticipantId,
             _reducedUI,
-            _shouldDisplayTileView
+            _shouldDisplayTileView,
+            _isAudioCall
         } = this.props;
 
         if (_reducedUI) {
             return this._renderContentForReducedUi();
         }
-
         return (
             <>
 
@@ -288,7 +291,8 @@ class Conference extends AbstractConference<Props, *> {
                   * The LargeVideo is the lowermost stacking layer.
                   */
                     _shouldDisplayTileView
-                        ? <TileView onClick = { this._onClick }/>
+                        ? _isAudioCall ? <TileView onClick = { this._onClick }/>
+                        : <VideoTileView onClick = { this._onClick } />
                         : <LargeVideo onClick = { this._onClick } />
                 }
 
@@ -336,7 +340,7 @@ class Conference extends AbstractConference<Props, *> {
                     pointerEvents = 'box-none'
                     style = { styles.navBarSafeView }>
                        
-                    <NavigationBar />
+                    {/* <NavigationBar /> */}
                     { this._renderNotificationsContainer() }
                     <KnockingParticipantList />
                 </SafeAreaView>
@@ -437,7 +441,7 @@ function _mapStateToProps(state) {
         leaving
     } = state['features/base/conference'];
     const { aspectRatio, reducedUI } = state['features/base/responsive-ui'];
-
+    const { startAudioOnly } = state['features/base/settings'];
     // XXX There is a window of time between the successful establishment of the
     // XMPP connection and the subsequent commencement of joining the MUC during
     // which the app does not appear to be doing anything according to the redux
@@ -460,7 +464,8 @@ function _mapStateToProps(state) {
         _largeVideoParticipantId: state['features/large-video'].participantId,
         _pictureInPictureEnabled: getFeatureFlag(state, PIP_ENABLED),
         _reducedUI: reducedUI,
-        _toolboxVisible: isToolboxVisible(state)
+        _toolboxVisible: isToolboxVisible(state),
+        _isAudioCall: startAudioOnly
     };
 }
 
