@@ -230,7 +230,7 @@ class ParticipantView extends Component<Props> {
                 }}
                 touchFeedback = { false }>
                 {
-                    !renderVideo && _totalParticiapnts == 2 && !_isLocalUser && <View style={{ borderRadius: 10, position: 'absolute', height: Dimensions.get('screen').height /1.13,borderWidth:!renderVideo ? 1 : 0, borderColor: !renderVideo ? ColorPalette.gray : ColorPalette.appBackground, width: Dimensions.get('screen').width - 50, alignSelf: 'center'}} />
+                    !renderVideo && _totalParticiapnts == 2 && !_isLocalUser && <View style={{ borderRadius: 10, position: 'absolute', height: Dimensions.get('screen').height /1.13,borderWidth:!renderVideo ? 1 : 0, borderColor: !renderVideo ? ColorPalette.gray : ColorPalette.appBackground, width: Dimensions.get('screen').width - 30, alignSelf: 'center'}} />
                 }
                 {
                     _totalParticiapnts == 2 && !_isLocalUser && <View style={{backgroundColor: ColorPalette.seaGreen, borderRadius: 16, padding: 4,paddingLeft: 6, paddingRight: 6, position: 'absolute', top: 60, alignSelf: 'center'}}>

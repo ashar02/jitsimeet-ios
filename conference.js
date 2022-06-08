@@ -220,7 +220,7 @@ function sendData(command, value) {
 function getDisplayName(id) {
     const participant = getParticipantById(APP.store.getState(), id);
 
-    return participant && participant.name;
+    return participant && participant?.name;
 }
 
 /**
