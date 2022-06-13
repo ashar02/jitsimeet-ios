@@ -161,7 +161,7 @@ export default {
      */
     toolboxAndFilmstripContainer: {
         bottom: 54,
-        flexDirection: 'column',
+        //flexDirection: 'column',
         justifyContent: 'flex-end',
         left: 0,
         position: 'absolute',

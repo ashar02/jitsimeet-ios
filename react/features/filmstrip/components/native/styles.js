@@ -36,6 +36,30 @@ export default {
         justifyContent: 'flex-end',
         marginBottom: 5
     },
+    thumbnailMenuContainer:{
+        alignSelf: 'center',
+        top: 24,
+        flex: 1,
+        margin: 4,
+        position: 'absolute',
+        backgroundColor: '#171717',
+        borderWidth: 1.25,
+        borderColor: ColorPalette.gray,
+        borderRadius: 8,
+        width: 150,
+        height: 100
+    },
+    actionItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding:8
+    },
+    actionTitle:{
+        color: '#C4C4C4',
+        fontSize: 10,
+        fontWeight: '500'
+    },
 
     /**
      * The style of the wide {@link Filmstrip} version which displays thumbnails
@@ -46,7 +70,7 @@ export default {
      */
     filmstripWide: {
         bottom: 0,
-        flexDirection: 'column',
+        //flexDirection: 'column',
         flexGrow: 0,
         position: 'absolute',
         right: 0,

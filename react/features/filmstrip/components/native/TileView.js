@@ -425,7 +425,7 @@ class TileView extends Component<Props> {
                         borderRadius:16,
                         backgroundColor: ColorPalette.appBackground,
                         borderColor: ColorPalette.gray,
-                        marginTop: 18,
+                        marginTop: 16,
                     }}
                     tileView = { true }
                     isLocalUser ={ false }
