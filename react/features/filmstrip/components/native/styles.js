@@ -159,7 +159,7 @@ export default {
 
     tileViewRow: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        //justifyContent: 'center',
         //alignSelf: 'flex-start'
     },
     audioMuteIndicatorLayout: {
