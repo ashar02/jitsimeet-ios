@@ -120,9 +120,8 @@ class OverflowMenu extends PureComponent<Props, State> {
             if (device.selected) {
                 const infoMap = deviceInfoMap[device.type];
                 const text = device.type === 'BLUETOOTH' && device.name ? device.name : infoMap.text;
-                const textArray = text.split('.');
 
-                this.state.selectedAudioDevice = textArray[1].toUpperCase();
+                this.state.selectedAudioDevice = text; // textArray[1].toUpperCase();
             }
         }
 
