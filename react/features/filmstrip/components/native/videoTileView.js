@@ -21,7 +21,7 @@ import styles from './styles';
 import { ColorPalette } from '../../../base/styles';
 
 /**
- * The type of the React {@link Component} props of {@link TileView}.
+ * The type of the React {@link Component} props of {@link VideoTileView}.
  */
 type Props = {
 
@@ -476,7 +476,7 @@ class VideoTileView extends Component<Props> {
 }
 
 /**
- * Maps (parts of) the redux state to the associated {@code TileView}'s props.
+ * Maps (parts of) the redux state to the associated {@code VideoTileView}'s props.
  *
  * @param {Object} state - The redux state.
  * @private
