@@ -89,6 +89,9 @@ class Filmstrip extends Component<Props> {
     render() {
         const { _aspectRatio, _participants, _visible, _videoMuted, onClick } = this.props;
 
+        if(!_videoMuted && _participants.length > 1){
+            return null;
+        }
         if (_participants.length + 1 > 3 ) {
             return null;
         }
