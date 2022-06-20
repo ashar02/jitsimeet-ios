@@ -104,6 +104,14 @@
     [self _onJitsiMeetViewDelegateEvent:@"INVITE_PEOPLE_BUTTON_PRESSED" withData:data];
 }
 
+- (void)profileInfoButtonPressed:(NSDictionary *)data {
+    [self _onJitsiMeetViewDelegateEvent:@"PROFILE_INFO_BUTTON_PRESSED" withData:data];
+}
+
+- (void)privateChatButtonPressed:(NSDictionary *)data {
+    [self _onJitsiMeetViewDelegateEvent:@"PRIVATE_CHAT_BUTTON_PRESSED" withData:data];
+}
+
 #if 0
 - (void)enterPictureInPicture:(NSDictionary *)data {
     [self _onJitsiMeetViewDelegateEvent:@"ENTER_PICTURE_IN_PICTURE" withData:data];

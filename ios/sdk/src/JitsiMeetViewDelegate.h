@@ -125,4 +125,18 @@
  */
 - (void)invitePeopleButtonPressed:(NSDictionary *)data;
 
+/**
+ * Called when profile info pressed.
+ *
+ * The `data` dictionary contains a 'email' key.
+ */
+- (void)profileInfoButtonPressed:(NSDictionary *)data;
+
+/**
+ * Called when private chat pressed.
+ *
+ * The `data` dictionary contains a 'email' key.
+ */
+- (void)privateChatButtonPressed:(NSDictionary *)data;
+
 @end
