@@ -110,7 +110,9 @@ type Props = {
      */
     tileView?: boolean,
 
-    _participantCount: number
+    _participantCount: number,
+
+    _participantEmail: string
 };
 
 /**
@@ -133,7 +135,7 @@ function Thumbnail(props: Props) {
         renderDisplayName,
         tileView,
         isLocalUser,
-        // onClick,
+        _participantEmail,
         _participantCount
     } = props;
 
@@ -209,7 +211,7 @@ function Thumbnail(props: Props) {
                         flex: 1,
                         margin: 4,
                         position: 'absolute',zIndex: 1, elevation: 5, overflow:'visible'}}>
-                        <ThumbnailMenu_ participantCount={_participantCount} />
+                        <ThumbnailMenu_ participantCount={_participantCount} participantEmail={_participantEmail}  />
                         </View>
                        
                     )
@@ -297,6 +299,7 @@ function _mapStateToProps(state, ownProps) {
     const tracks = state['features/base/tracks'];
     const { participant } = ownProps;
     const id = participant.id;
+    const participantEmail = participant.email;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
@@ -313,7 +316,8 @@ function _mapStateToProps(state, ownProps) {
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
-        _participantCount: participantCount
+        _participantCount: participantCount,
+        _participantEmail: participantEmail
     };
 }
 
