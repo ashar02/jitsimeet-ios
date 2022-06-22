@@ -126,7 +126,7 @@ class VideoTileView extends Component<Props> {
             <View>
             {
                     this.props._participants.length > 4 && (   
-                        <SafeAreaView
+                        <View
                         style = {{
                             height: _height,
                             width: _width
@@ -147,10 +147,10 @@ class VideoTileView extends Component<Props> {
                                             maxHeight: 200,
                                             maxWidth: Dimensions.get('screen').width,
                                             width: Dimensions.get('screen').width,
-                                           
+                                            margin:0,
+                                            borderWidth:0,
                                             backgroundColor: ColorPalette.appBackground,
-                                            
-                                           borderColor: ColorPalette.appBackground,
+                                            borderColor: ColorPalette.appBackground,
                                             alignSelf: 'center'
                                         }}
                                         tileView={true}
@@ -169,11 +169,11 @@ class VideoTileView extends Component<Props> {
                                 { rowallElements }
                             </View>
                         
-                    </SafeAreaView>
+                    </View>
                         )}
                 {
                     this.props._participants.length < 4 && (   
-                        <SafeAreaView
+                        <View
                         style = {{
                             
                             height: _height,
@@ -190,10 +190,10 @@ class VideoTileView extends Component<Props> {
                                 { rowElements }
                             </View>
                         
-                    </SafeAreaView>
+                    </View>
                         )}
                         { this.props._participants.length == 4 && (
-                            <SafeAreaView>
+                            <View>
                             <FlatList
                                 data={this.props._participants}
                                 numColumns={2}
@@ -211,12 +211,9 @@ class VideoTileView extends Component<Props> {
                                             maxHeight: Dimensions.get('screen').height / 2.2,
                                             maxWidth: boxWidth,
                                             width: boxWidth,
-                                            
-                                            backgroundColor: ColorPalette.appBackground,
-                                            
-                                            
-                                            
-                                            borderColor: ColorPalette.appBackground
+                                            margin:0,
+                                            borderWidth: 0,
+                                            backgroundColor: ColorPalette.appBackground
                                         }}
                                         tileView={true}
                                         isLocalUser={false}
@@ -224,7 +221,7 @@ class VideoTileView extends Component<Props> {
                                     />
                                 )}
                             />
-                            </SafeAreaView>
+                            </View>
                     )
                 }
           
@@ -425,7 +422,9 @@ class VideoTileView extends Component<Props> {
                         maxWidth: null,
                         width: null,
                         backgroundColor: ColorPalette.appBackground,
-                        borderColor: ColorPalette.appBackground
+                        //borderColor: ColorPalette.appBackground,
+                        margin:0,
+                        borderWidth: 0
                     }}
                     tileView = { true }
                     isLocalUser ={ false }
@@ -449,7 +448,8 @@ class VideoTileView extends Component<Props> {
                         maxWidth: null,
                         width: null,
                         backgroundColor: ColorPalette.appBackground,
-                        borderColor: ColorPalette.appBackground
+                        margin:0,
+                        borderWidth: 0
                     }}
                     tileView = { true }
                     isLocalUser ={ false }
