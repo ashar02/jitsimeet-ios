@@ -125,7 +125,7 @@ function Thumbnail(props: Props) {
     const {
         _audioMuted: audioMuted,
         _largeVideo: largeVideo,
-        // _onClick,
+        //_onClick,
         _renderDominantSpeakerIndicator: renderDominantSpeakerIndicator,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles,
@@ -137,7 +137,8 @@ function Thumbnail(props: Props) {
         isLocalUser,
         _participantEmail,
         _participantCount,
-        userIndex
+        userIndex,
+        onClick
     } = props;
 
     const participantId = participant.id;
@@ -166,6 +167,7 @@ function Thumbnail(props: Props) {
     }
     _onClick = () => {
         setShowThumbnailMenu(false);
+        onClick()
     }
     return (
         <Container
@@ -192,7 +194,7 @@ function Thumbnail(props: Props) {
                 onPress = { _onClick }
                 zOrder = { 1 } />
 
-            { renderDisplayName && <Container style = {[ styles.displayNameContainer, {backgroundColor: renderDominantSpeakerIndicator ? ColorPalette.seaGreen : ColorPalette.black, marginTop: userIndex < 2 && _participantCount !== 5 && _participantCount !== 7  ?  50 : userIndex == -1 ? 50 : userIndex == 2 && _participantCount == 9 ? 50 :  0 } ]}>
+            { renderDisplayName && <Container style = {[ styles.displayNameContainer, {backgroundColor: renderDominantSpeakerIndicator ? ColorPalette.seaGreen : ColorPalette.black, marginTop: userIndex < 2 && _participantCount !== 5 && _participantCount !== 7  ?  28 : userIndex == -1 ? 28 : userIndex == 2 && _participantCount == 9 ? 28 :  0 } ]}>
                 {
                     isLocalUser ? (
                         <Text style={{ color: ColorPalette.white,
