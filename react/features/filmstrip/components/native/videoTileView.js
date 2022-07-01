@@ -290,14 +290,22 @@ class VideoTileView extends Component<Props> {
     _getSortedParticipants() {
         const participants = [];
         let localParticipant;
-        let pinnedParticipant;
+        let pinnedParticipant = null;
 
         for (const [index,participant] of this.props._participants.entries()) {
             if(this.props._participants.length == 7 || this.props._participants.length == 10 || this.props._participants.length == 5){
-                if(index == this.props._participants.length - 1){
+                if(participant.pinned){
                     pinnedParticipant = participant
-                }else{
-                    participants.push(participant);
+                }else if(index == this.props._participants.length - 1 && !pinnedParticipant){
+                    pinnedParticipant = participant
+                }
+                else{
+                    if(participant.pinned){
+                        pinnedParticipant = participant
+                    }else{
+                        participants.push(participant);
+                    }
+                   
                 }
                 
             }else {

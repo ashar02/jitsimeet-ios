@@ -8,7 +8,9 @@ import { BottomSheet, hideDialog, isDialogOpen } from '../../../base/dialog';
 import { IconDragHandle, IconUserProfile, IconChatSend, IconUserPin } from '../../../base/icons';
 import { connect } from '../../../base/redux';
 import { ColorPalette, StyleType } from '../../../base/styles';
-
+import {
+    pinParticipant
+} from '../../../base/participants';
 
 import { SlidingView } from '../../../base/react';
 import styles from './styles';
@@ -95,6 +97,10 @@ class ThumbnailMenu extends PureComponent<Props, State> {
             this.props.dispatch(profileInfo(this.props.participantEmail));
         });
 
+        this._pinUser = _.once(() => {
+            this.props.dispatch(pinParticipant(this.props.participant.pinned ? null : this.props.participant.id));
+        })
+
         // Bind event handlers so they are only bound once per instance.
         this._onCancel = this._onCancel.bind(this);
         this._onSwipe = this._onSwipe.bind(this);
@@ -134,7 +140,7 @@ class ThumbnailMenu extends PureComponent<Props, State> {
                 show = { true }
            >
                 <View  style={[styles.thumbnailMenuContainer, {zIndex: participantCount == 7 || participantCount == 10 ? 1 : 0, elevation: 5}]}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={this._pinUser}>
                     <View style={styles.actionItem}>
                         <Text style={styles.actionTitle}>PIN</Text>
                         <IconUserPin width={15} height={15} />
