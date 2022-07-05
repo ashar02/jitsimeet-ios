@@ -194,7 +194,7 @@ function Thumbnail(props: Props) {
                 onPress = { _onClick }
                 zOrder = { 1 } />
 
-            { renderDisplayName && <Container style = {[ styles.displayNameContainer, {backgroundColor: renderDominantSpeakerIndicator ? ColorPalette.seaGreen : ColorPalette.black, marginTop: userIndex < 2 && _participantCount !== 5 && _participantCount !== 7  ?  28 : userIndex == -1 ? 28 : userIndex == 2 && _participantCount == 9 ? 28 :  0 } ]}>
+            { renderDisplayName && <Container style = {[ styles.displayNameContainer, {backgroundColor: renderDominantSpeakerIndicator ? ColorPalette.seaGreen : ColorPalette.black, marginTop: userIndex < 2 && _participantCount !== 5 && _participantCount !== 7  ?  35 : userIndex == -1 ? 28 : userIndex == 2 && _participantCount == 9 ? 35 :  0 } ]}>
                 {
                     isLocalUser ? (
                         <Text style={{ color: ColorPalette.white,

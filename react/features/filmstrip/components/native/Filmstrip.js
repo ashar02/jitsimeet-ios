@@ -91,10 +91,10 @@ class Filmstrip extends Component<Props> {
     render() {
         const { _aspectRatio, _participants, _visible, _videoMuted, onClick, _startAudioOnly } = this.props;
 
-        if(!_startAudioOnly && _participants.length > 1){
+        if(!_startAudioOnly && _participants.length > 2 || _participants.length == 1){
             return null;
         }
-        if (_participants.length + 1 > 3 ) {
+        if (_participants.length > 3 ) {
             return null;
         }
 
@@ -107,7 +107,7 @@ class Filmstrip extends Component<Props> {
                 {
                     this._separateLocalThumbnail
                         && !isNarrowAspectRatio
-                        && <LocalThumbnail participantsCount={_participants.length+1} />
+                        && <LocalThumbnail participantsCount={_participants.length} />
                 }
                 
                 <ScrollView
@@ -117,7 +117,7 @@ class Filmstrip extends Component<Props> {
                     style = { styles.scrollView } >
                     {
                         !this._separateLocalThumbnail && !isNarrowAspectRatio
-                            && <LocalThumbnail participantsCount={_participants.length+1} />
+                            && <LocalThumbnail participantsCount={_participants.length} />
                     }
                     {/* {
 
@@ -130,13 +130,13 @@ class Filmstrip extends Component<Props> {
                     } */}
                     {
                         !this._separateLocalThumbnail && isNarrowAspectRatio
-                            && <LocalThumbnail participantsCount={_participants.length+1} />
+                            && <LocalThumbnail participantsCount={_participants.length} />
                     }
                 </ScrollView>
                
                 {
                     this._separateLocalThumbnail && isNarrowAspectRatio
-                        && <LocalThumbnail participantsCount={_participants.length+1} />
+                        && <LocalThumbnail participantsCount={_participants.length} />
                 }
             </SafeAreaView>
             </TouchableWithoutFeedback>
@@ -189,7 +189,7 @@ function _mapStateToProps(state) {
 
     return {
         _aspectRatio: state['features/base/responsive-ui'].aspectRatio,
-        _participants: participants.filter(p => !p.local),
+        _participants: participants,
         _visible: enabled && isFilmstripVisible(state),
         _videoMuted: isLocalCameraTrackMuted(tracks),
         _startAudioOnly: startAudioOnly
