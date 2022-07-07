@@ -88,11 +88,12 @@ function LocalThumbnail(props: Props) {
             maxHeight:  boxHeight,
             maxWidth: boxWidth,
             width: boxWidth,
-            borderRadius:0,
+            borderRadius:8,
             marginRight: 15,
-            marginTop:55,
+            marginTop:25,
             alignSelf: 'center',
-            borderColor:  ColorPalette.gray
+            borderColor:  ColorPalette.gray,
+            padding: 8
         };
        
 
