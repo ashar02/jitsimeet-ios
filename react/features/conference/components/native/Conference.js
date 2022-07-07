@@ -12,6 +12,7 @@ import { TestConnectionInfo } from '../../../base/testing';
 import { ConferenceNotification, isCalendarEnabled } from '../../../calendar-sync';
 import { Chat } from '../../../chat';
 import { DisplayNameLabel } from '../../../display-name';
+import { isLocalCameraTrackMuted } from '../../../base/tracks';
 import { SharedDocument } from '../../../etherpad';
 import {
     FILMSTRIP_SIZE,
@@ -101,7 +102,8 @@ type Props = AbstractProps & {
      */
     dispatch: Function,
 
-    _isAudioCall: boolean
+
+    _videoMuted: boolean
 };
 
 /**
@@ -139,6 +141,10 @@ class Conference extends AbstractConference<Props, *> {
               this.pan.flattenOffset();
             }
           });
+
+        this.state={
+            _isAudioCall: true
+        }
     }
 
     /**
@@ -149,6 +155,9 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {void}
      */
     componentDidMount() {
+        if(!this.props._videoMuted){
+            this.setState({_isAudioCall: false});
+        }
         BackButtonRegistry.addListener(this._onHardwareBackPress);
     }
 
@@ -278,8 +287,7 @@ class Conference extends AbstractConference<Props, *> {
             _connecting,
             _largeVideoParticipantId,
             _reducedUI,
-            _shouldDisplayTileView,
-            _isAudioCall
+            _shouldDisplayTileView
         } = this.props;
 
         if (_reducedUI) {
@@ -293,7 +301,7 @@ class Conference extends AbstractConference<Props, *> {
                   * The LargeVideo is the lowermost stacking layer.
                   */
                     _shouldDisplayTileView
-                        ? _isAudioCall ? <TileView onClick = { this._onClick }/>
+                        ? this.state._isAudioCall ? <TileView onClick = { this._onClick }/>
                         : <VideoTileView onClick = { this._onClick } />
                         : <LargeVideo onClick = { this._onClick } />
                 }
@@ -443,7 +451,8 @@ function _mapStateToProps(state) {
         leaving
     } = state['features/base/conference'];
     const { aspectRatio, reducedUI } = state['features/base/responsive-ui'];
-    const { startAudioOnly } = state['features/base/settings'];
+    
+    const tracks = state['features/base/tracks'];
     // XXX There is a window of time between the successful establishment of the
     // XMPP connection and the subsequent commencement of joining the MUC during
     // which the app does not appear to be doing anything according to the redux
@@ -467,7 +476,7 @@ function _mapStateToProps(state) {
         _pictureInPictureEnabled: getFeatureFlag(state, PIP_ENABLED),
         _reducedUI: reducedUI,
         _toolboxVisible: isToolboxVisible(state),
-        _isAudioCall: startAudioOnly
+        _videoMuted: isLocalCameraTrackMuted(tracks),
     };
 }
 
