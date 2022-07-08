@@ -185,14 +185,14 @@ function _mapStateToProps(state) {
     const participants = state['features/base/participants'];
     const { enabled } = state['features/filmstrip'];
     const tracks = state['features/base/tracks'];
-    const { startAudioOnly } = state['features/base/settings'];
+    const audioOnly = state['features/base/audio-only'].enabled;
 
     return {
         _aspectRatio: state['features/base/responsive-ui'].aspectRatio,
         _participants: participants,
         _visible: enabled && isFilmstripVisible(state),
         _videoMuted: isLocalCameraTrackMuted(tracks),
-        _startAudioOnly: startAudioOnly
+        _startAudioOnly: audioOnly
     };
 }
 

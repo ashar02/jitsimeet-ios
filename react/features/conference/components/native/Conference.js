@@ -103,7 +103,7 @@ type Props = AbstractProps & {
     dispatch: Function,
 
 
-    _videoMuted: boolean
+    _isAudioCall: boolean
 };
 
 /**
@@ -142,9 +142,6 @@ class Conference extends AbstractConference<Props, *> {
             }
           });
 
-        this.state={
-            _isAudioCall: true
-        }
     }
 
     /**
@@ -155,9 +152,6 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {void}
      */
     componentDidMount() {
-        if(!this.props._videoMuted){
-            this.setState({_isAudioCall: false});
-        }
         BackButtonRegistry.addListener(this._onHardwareBackPress);
     }
 
@@ -287,7 +281,8 @@ class Conference extends AbstractConference<Props, *> {
             _connecting,
             _largeVideoParticipantId,
             _reducedUI,
-            _shouldDisplayTileView
+            _shouldDisplayTileView,
+            _isAudioCall
         } = this.props;
 
         if (_reducedUI) {
@@ -301,7 +296,7 @@ class Conference extends AbstractConference<Props, *> {
                   * The LargeVideo is the lowermost stacking layer.
                   */
                     _shouldDisplayTileView
-                        ? this.state._isAudioCall ? <TileView onClick = { this._onClick }/>
+                        ? _isAudioCall ? <TileView onClick = { this._onClick }/>
                         : <VideoTileView onClick = { this._onClick } />
                         : <LargeVideo onClick = { this._onClick } />
                 }
@@ -453,6 +448,7 @@ function _mapStateToProps(state) {
     const { aspectRatio, reducedUI } = state['features/base/responsive-ui'];
     
     const tracks = state['features/base/tracks'];
+    const audioOnly = state['features/base/audio-only'].enabled;
     // XXX There is a window of time between the successful establishment of the
     // XMPP connection and the subsequent commencement of joining the MUC during
     // which the app does not appear to be doing anything according to the redux
@@ -476,7 +472,7 @@ function _mapStateToProps(state) {
         _pictureInPictureEnabled: getFeatureFlag(state, PIP_ENABLED),
         _reducedUI: reducedUI,
         _toolboxVisible: isToolboxVisible(state),
-        _videoMuted: isLocalCameraTrackMuted(tracks),
+        _isAudioCall: audioOnly,
     };
 }
 
