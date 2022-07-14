@@ -15,7 +15,10 @@ import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
 import { getAvatarBackgroundColor } from '../../../base/avatar/functions';
-
+import {
+    pinParticipant,
+    getPinnedParticipant
+} from '../../../base/participants';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 import { ColorPalette } from '../../../base/styles';
@@ -55,7 +58,9 @@ type Props = {
      */
     onClick: Function,
 
-    _isAudioCall: boolean
+    _isAudioCall: boolean,
+
+    _pinnedParticipant: Object
 };
 
 /**
@@ -114,7 +119,7 @@ class VideoTileView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _height, _width, onClick, _isAudioCall } = this.props;
+        const { _height, _width, onClick, _isAudioCall, _pinnedParticipant } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
         const rowallElements = this._groupIntoRows(this._renderAllThumbnails(), this._getColumnCount());
         const pinnedElement = this._pinnedElement();
@@ -132,14 +137,14 @@ class VideoTileView extends Component<Props> {
                             width: _width
                         }}>
                         {
-                            this.state.pinnedParticipant && (
+                            _pinnedParticipant && (
                                 <View>
                                     <Thumbnail
                                         
                                         disableTint={true}
-                                        key={this.state.pinnedParticipant?.id}
+                                        key={_pinnedParticipant?.id}
                                         userIndex={-1}
-                                        participant={this.state.pinnedParticipant}
+                                        participant={_pinnedParticipant}
                                         renderDisplayName={true}
                                         styleOverrides={{
                                             aspectRatio: 2,
@@ -294,25 +299,25 @@ class VideoTileView extends Component<Props> {
 
         for (const [index,participant] of this.props._participants.entries()) {
             if(this.props._participants.length == 7 || this.props._participants.length == 10 || this.props._participants.length == 5){
-                if(participant.pinned){
-                    pinnedParticipant = participant
-                }else if(index == this.props._participants.length - 1 && !pinnedParticipant){
-                    pinnedParticipant = participant
+                if(index == this.props._participants.length - 1 && !this.props._pinnedParticipant){
+                    this.props.dispatch(pinParticipant(participant.id));
                 }
                 else{
-                    if(participant.pinned){
-                        pinnedParticipant = participant
-                    }else{
+                    if(!participant.pinned){
                         participants.push(participant);
                     }
-                   
                 }
                 
             }else {
                 if(participant.local && this.props._participants.length == 3 && this.props._isAudioCall){
-
+                    this.props.dispatch(pinParticipant(null));
                 }else{
-                    participants.push(participant);
+                    if(participant.pinned){
+                        this.props.dispatch(pinParticipant(null));
+                    }else{
+                        participants.push(participant);
+                    }
+                    
                 }
                    
                 
@@ -335,13 +340,13 @@ class VideoTileView extends Component<Props> {
                 
             // }
         }
-        if(this.state.pinnedParticipant && this.props._participants.length != 10){
-            if(this.props._participants.length != 7 && this.props._participants.length != 5  )
-            this.setState({pinnedParticipant: null})
-        }
-        if(!this.state.pinnedParticipant ){
-            pinnedParticipant && this.setState({ pinnedParticipant: pinnedParticipant});
-            }
+        // if(this.state.pinnedParticipant && this.props._participants.length != 10){
+        //     if(this.props._participants.length != 7 && this.props._participants.length != 5  )
+        //     this.setState({pinnedParticipant: null})
+        // }
+        // if(!this.state.pinnedParticipant ){
+        //     pinnedParticipant && this.setState({ pinnedParticipant: pinnedParticipant});
+        //     }
 
         return participants;
     }
@@ -453,7 +458,7 @@ class VideoTileView extends Component<Props> {
                     participant = { participant }
                     renderDisplayName = { true }
                     styleOverrides = {{
-                        aspectRatio: this.props._participants.length == 9 ? 0.5 :  this.props._participants.length > 8 ? 0.7 : this.props._participants.length == 6 ? 0.7 : this.props._participants.length == 7 ? 0.41 : this.props._participants.length > 7 ? 0.8  : 0.6,
+                        aspectRatio: this.props._participants.length == 9 ? 0.46 :  this.props._participants.length > 8 ? 0.6 : this.props._participants.length == 6 ? 0.7 : this.props._participants.length == 7 ? 0.41 : this.props._participants.length > 7 ? 0.92  : 0.6,
                         flex: 1,
                         height: null,
                         maxHeight: null,
@@ -497,13 +502,16 @@ class VideoTileView extends Component<Props> {
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
     const { startAudioOnly } = state['features/base/settings'];
+    const participants = state['features/base/participants'];
+    const pinnedParticipant = getPinnedParticipant(participants);
 
     return {
         _aspectRatio: responsiveUi.aspectRatio,
         _height: responsiveUi.clientHeight,
         _participants: state['features/base/participants'],
         _width: responsiveUi.clientWidth,
-        _isAudioCall: startAudioOnly
+        _isAudioCall: startAudioOnly,
+        _pinnedParticipant: pinnedParticipant
     };
 }
 
