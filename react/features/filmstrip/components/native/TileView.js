@@ -15,7 +15,10 @@ import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
 import { getAvatarBackgroundColor } from '../../../base/avatar/functions';
-
+import {
+    pinParticipant,
+    getPinnedParticipant
+} from '../../../base/participants';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 import { ColorPalette } from '../../../base/styles';
@@ -53,7 +56,9 @@ type Props = {
     /**
      * Callback to invoke when tile view is tapped.
      */
-    onClick: Function
+    onClick: Function,
+
+    _pinnedParticipant: Object
 };
 
 /**
@@ -112,13 +117,12 @@ class TileView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _height, _width, onClick } = this.props;
+        const { _height, _width, onClick, _pinnedParticipant } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
         const rowallElements = this._groupIntoRows(this._renderAllThumbnails(), this._getColumnCount());
         const pinnedElement = this._pinnedElement();
         const boxHeight = Dimensions.get('screen').height / 3 - 50;
         const boxWidth = Dimensions.get('screen').width / 2 + 27; 
-        console.log("i am pinned particiapnt", this.state.pinnedParticipant)
         return (
             <TouchableWithoutFeedback onPress = { onClick }>
             <View>
@@ -131,13 +135,13 @@ class TileView extends Component<Props> {
                             width: _width
                         }}>
                         {
-                            this.state.pinnedParticipant && (
+                            _pinnedParticipant && (
                                 <View>
                                     <Thumbnail
                                         
                                         disableTint={true}
-                                        key={this.state.pinnedParticipant?.id}
-                                        participant={this.state.pinnedParticipant}
+                                        key={_pinnedParticipant?.id}
+                                        participant={_pinnedParticipant}
                                         renderDisplayName={true}
                                         styleOverrides={{
                                             aspectRatio: 2,
@@ -292,47 +296,32 @@ class TileView extends Component<Props> {
         let pinnedParticipant;
 
         for (const [index,participant] of this.props._participants.entries()) {
-            if(this.props._participants.length == 7 || this.props._participants.length == 10){
-                if(index == this.props._participants.length - 1){
-                    pinnedParticipant = participant
-                }else{
-                    participants.push(participant);
+            if(this.props._participants.length == 7 || this.props._participants.length == 10 || this.props._participants.length == 5){
+                if(index == this.props._participants.length - 1 && !this.props._pinnedParticipant){
+                    this.props.dispatch(pinParticipant(participant.id));
+                }
+                else{
+                    if(!participant.pinned){
+                        participants.push(participant);
+                    }
                 }
                 
             }else {
-                if(participant.local && this.props._participants.length == 3){
-
+                if(participant.local && this.props._participants.length == 3 && this.props._isAudioCall){
+                    this.props.dispatch(pinParticipant(null));
                 }else{
-                    participants.push(participant);
+                    if(participant.pinned){
+                        this.props.dispatch(pinParticipant(null));
+                    }else{
+                        participants.push(participant);
+                    }
+                    
                 }
                    
                 
             }
-            // if (participant.local) {
-            //     localParticipant = participant;
-            //     if(this.props._participants.length > 3){
-            //         if(participant.pinned || this.props._participants.length == 7 || this.props._participants.length == 10 && index == this.props._participants.length -1){
-            //             pinnedParticipant = participant
-            //         }else {
-            //             participants.push(participant);
-            //         }
-            //     }
-            // } else {
-            //     if(participant.pinned || this.props._participants.length == 7  && index == this.props._participants.length -1){
-            //         pinnedParticipant = participant
-            //     }else {
-            //         participants.push(participant);
-            //     }
-                
-            // }
+           
         }
-        if(this.state.pinnedParticipant && this.props._participants.length != 10){
-            if(this.props._participants.length > 7 || this.props._participants.length < 7)
-            this.setState({pinnedParticipant: null})
-        }
-        if(!this.state.pinnedParticipant ){
-            pinnedParticipant && this.setState({ pinnedParticipant: pinnedParticipant});
-            }
 
         return participants;
     }
@@ -489,12 +478,15 @@ class TileView extends Component<Props> {
  */
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
+    const participants = state['features/base/participants'];
+    const pinnedParticipant = getPinnedParticipant(participants);
 
     return {
         _aspectRatio: responsiveUi.aspectRatio,
         _height: responsiveUi.clientHeight,
         _participants: state['features/base/participants'],
-        _width: responsiveUi.clientWidth
+        _width: responsiveUi.clientWidth,
+        _pinnedParticipant: pinnedParticipant
     };
 }
 

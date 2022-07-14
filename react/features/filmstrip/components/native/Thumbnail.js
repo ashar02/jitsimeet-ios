@@ -214,7 +214,7 @@ function Thumbnail(props: Props) {
                         flex: 1,
                         margin: 4,
                         position: 'absolute',zIndex: 1, elevation: 5, overflow:'visible'}}>
-                        <ThumbnailMenu_ participantCount={_participantCount} participantEmail={_participantEmail}  />
+                        <ThumbnailMenu_ participantCount={_participantCount} participantEmail={_participantEmail} participant={participant}  />
                         </View>
                        
                     )

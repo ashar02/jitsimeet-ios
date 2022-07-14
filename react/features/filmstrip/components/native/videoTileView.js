@@ -322,31 +322,9 @@ class VideoTileView extends Component<Props> {
                    
                 
             }
-            // if (participant.local) {
-            //     localParticipant = participant;
-            //     if(this.props._participants.length > 3){
-            //         if(participant.pinned || this.props._participants.length == 7 || this.props._participants.length == 10 && index == this.props._participants.length -1){
-            //             pinnedParticipant = participant
-            //         }else {
-            //             participants.push(participant);
-            //         }
-            //     }
-            // } else {
-            //     if(participant.pinned || this.props._participants.length == 7  && index == this.props._participants.length -1){
-            //         pinnedParticipant = participant
-            //     }else {
-            //         participants.push(participant);
-            //     }
-                
-            // }
+           
         }
-        // if(this.state.pinnedParticipant && this.props._participants.length != 10){
-        //     if(this.props._participants.length != 7 && this.props._participants.length != 5  )
-        //     this.setState({pinnedParticipant: null})
-        // }
-        // if(!this.state.pinnedParticipant ){
-        //     pinnedParticipant && this.setState({ pinnedParticipant: pinnedParticipant});
-        //     }
+      
 
         return participants;
     }
