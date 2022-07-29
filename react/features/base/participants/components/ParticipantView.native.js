@@ -123,8 +123,6 @@ type Props = {
      */
     zOrder: number,
 
-    _audioOnly: boolean,
-
     /**
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
@@ -201,10 +199,10 @@ class ParticipantView extends Component<Props> {
             disableVideo,
             onPress,
             tintStyle,
-            _audioOnly,
             _totalParticiapnts,
             _isLocalUser,
-            _participantName
+            _participantName,
+            isAudioCall
         } = this.props;
 
         // If the connection has problems, we will "tint" the video / avatar.
@@ -230,7 +228,7 @@ class ParticipantView extends Component<Props> {
                 }}
                 touchFeedback = { false }>
                 {
-                    !renderVideo && _totalParticiapnts == 2 && !_isLocalUser && <View style={{ borderRadius: 10, position: 'absolute', height: Dimensions.get('screen').height /1.13,borderWidth:!renderVideo ? 1 : 0, borderColor: !renderVideo ? ColorPalette.gray : ColorPalette.appBackground, width: Dimensions.get('screen').width - 30, alignSelf: 'center'}} />
+                    isAudioCall && _totalParticiapnts == 2 && !_isLocalUser && <View style={{ borderRadius: 10, position: 'absolute', height: Dimensions.get('screen').height /1.13,borderWidth:!renderVideo ? 1 : 0, borderColor: !renderVideo ? ColorPalette.gray : ColorPalette.appBackground, width: Dimensions.get('screen').width - 30, alignSelf: 'center'}} />
                 }
                 {
                     _totalParticiapnts == 2 && !_isLocalUser && <View style={{backgroundColor: ColorPalette.seaGreen, borderRadius: 16, padding: 4,paddingLeft: 6, paddingRight: 6, position: 'absolute', top: 60, alignSelf: 'center'}}>
@@ -254,7 +252,7 @@ class ParticipantView extends Component<Props> {
                         zoomEnabled = { this.props.zoomEnabled } />
                         }
 
-                { !renderYoutubeLargeVideo && !renderVideo && _audioOnly || videoTrack&&videoTrack.muted ?
+                { !renderYoutubeLargeVideo && !renderVideo && isAudioCall || videoTrack&&videoTrack.muted ?
                      <View style = { styles.avatarContainer }>
                         <Avatar
                             participantId = { this.props.participantId }
@@ -289,7 +287,7 @@ function _mapStateToProps(state, ownProps) {
     const { disableVideo, participantId } = ownProps;
     const participant = getParticipantById(state, participantId);
     const participants = state['features/base/participants'];
-    const audioOnly = state['features/base/audio-only'].enabled;
+    const {startAudioOnly} = state['features/base/settings'];
     let connectionStatus;
     let participantName = participant?.name;
 
@@ -305,7 +303,6 @@ function _mapStateToProps(state, ownProps) {
                 state['features/base/tracks'],
                 MEDIA_TYPE.VIDEO,
                 participantId),
-        _audioOnly: audioOnly,
         _totalParticiapnts: participants?.length,
         _isLocalUser: participant?.local ?? false
     };

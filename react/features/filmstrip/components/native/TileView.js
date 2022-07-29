@@ -117,7 +117,7 @@ class TileView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _height, _width, onClick, _pinnedParticipant } = this.props;
+        const { _height, _width, onClick, _pinnedParticipant, isAudioCall } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
         const rowallElements = this._groupIntoRows(this._renderAllThumbnails(), this._getColumnCount());
         const pinnedElement = this._pinnedElement();
@@ -138,7 +138,7 @@ class TileView extends Component<Props> {
                             _pinnedParticipant && (
                                 <View>
                                     <Thumbnail
-                                        
+                                        isAudioCall={isAudioCall}
                                         disableTint={true}
                                         key={_pinnedParticipant?.id}
                                         participant={_pinnedParticipant}
@@ -202,7 +202,7 @@ class TileView extends Component<Props> {
                                 numColumns={2}
                                 renderItem={({ item, index }) => (
                                     <Thumbnail
-                                        key={index}
+                                        isAudioCall={isAudioCall}
                                         disableTint={true}
                                         key={item?.id}
                                         participant={item}
@@ -232,27 +232,6 @@ class TileView extends Component<Props> {
                     )
                 }
           
-            {/* <View style={{position:'absolute', right:12,bottom:12}}>
-                {
-                    this.state.localParticipant &&  <Thumbnail
-                    disableTint = { true }
-                    key = { this.state.localParticipant?.id }
-                    participant = { this.state?.localParticipant }
-                    renderDisplayName = { this.props._participants.length == 3 ? false : this.props._participants.length > 5 ? false : true }
-                    styleOverrides = {{
-                        aspectRatio: null,
-                        flex: 1,
-                        height: 140,
-                        maxHeight: this.props._participants.length == 3 ? 100 : this.props._participants.length > 5 ? 100 :  140 ,
-                        maxWidth: this.props._participants.length == 3 ? 100 : this.props._participants.length > 5 ? 100 :  140 ,
-                        width: 140,
-                        borderRadius:16,
-                        backgroundColor:getAvatarBackgroundColor(this.state?.localParticipant.name)
-                    }}
-                    tileView = { false } />
-                }
-           
-            </View> */}
             </View>
             </TouchableWithoutFeedback>
         );
@@ -307,8 +286,8 @@ class TileView extends Component<Props> {
                 }
                 
             }else {
-                if(participant.local && this.props._participants.length == 3 && this.props._isAudioCall){
-                    this.props.dispatch(pinParticipant(null));
+                if(participant.local && this.props._participants.length == 3){
+                    //this.props.dispatch(pinParticipant(null));
                 }else{
                     if(participant.pinned){
                         this.props.dispatch(pinParticipant(null));
@@ -400,6 +379,7 @@ class TileView extends Component<Props> {
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
+                    isAudioCall={this.props.isAudioCall}
                     disableTint = { true }
                     key = { participant.id }
                     participant = { participant }
@@ -427,6 +407,7 @@ class TileView extends Component<Props> {
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
+                    isAudioCall={this.props.isAudioCall}
                     disableTint = { true }
                     key = { participant.id }
                     participant = { participant }

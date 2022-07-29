@@ -58,8 +58,6 @@ type Props = {
      */
     onClick: Function,
 
-    _isAudioCall: boolean,
-
     _pinnedParticipant: Object
 };
 
@@ -119,7 +117,7 @@ class VideoTileView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _height, _width, onClick, _isAudioCall, _pinnedParticipant } = this.props;
+        const { _height, _width, onClick, _pinnedParticipant } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
         const rowallElements = this._groupIntoRows(this._renderAllThumbnails(), this._getColumnCount());
         const pinnedElement = this._pinnedElement();
@@ -205,7 +203,6 @@ class VideoTileView extends Component<Props> {
                                 numColumns={2}
                                 renderItem={({ item, index }) => (
                                     <Thumbnail
-                                        key={index}
                                         disableTint={true}
                                         userIndex={index}
                                         key={item?.id}
@@ -270,9 +267,9 @@ class VideoTileView extends Component<Props> {
         // For narrow view, tiles should stack on top of each other for a lonely
         // call and a 1:1 call. Otherwise tiles should be grouped into rows of
         // two.
-        if (participantCount == 3 && this.props._isAudioCall) {
+        if (participantCount == 3 && this.props.isAudioCall) {
             return 1;
-        }else if(!this.props._isAudioCall && participantCount == 3){
+        }else if(!this.props.isAudioCall && participantCount == 3){
             return 2;
         }
         if(participantCount == 7 || participantCount > 8){
@@ -308,19 +305,12 @@ class VideoTileView extends Component<Props> {
                     }
                 }
                 
-            }else {
-                if(participant.local && this.props._participants.length == 3 && this.props._isAudioCall){
+            }else{
+                if(participant.pinned){
                     this.props.dispatch(pinParticipant(null));
                 }else{
-                    if(participant.pinned){
-                        this.props.dispatch(pinParticipant(null));
-                    }else{
-                        participants.push(participant);
-                    }
-                    
-                }
-                   
-                
+                    participants.push(participant);
+                }   
             }
            
         }
@@ -479,7 +469,6 @@ class VideoTileView extends Component<Props> {
  */
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
-    const { startAudioOnly } = state['features/base/settings'];
     const participants = state['features/base/participants'];
     const pinnedParticipant = getPinnedParticipant(participants);
 
@@ -488,7 +477,6 @@ function _mapStateToProps(state) {
         _height: responsiveUi.clientHeight,
         _participants: state['features/base/participants'],
         _width: responsiveUi.clientWidth,
-        _isAudioCall: startAudioOnly,
         _pinnedParticipant: pinnedParticipant
     };
 }

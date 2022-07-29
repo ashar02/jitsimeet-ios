@@ -33,8 +33,6 @@ type Props = {
      */
      _videoMuted: boolean,
 
-     _startAudioOnly: boolean,
-
     /**
      * The indicator which determines whether the filmstrip is visible.
      */
@@ -89,9 +87,9 @@ class Filmstrip extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _aspectRatio, _participants, _visible, _videoMuted, onClick, _startAudioOnly } = this.props;
+        const { _aspectRatio, _participants, onClick, isAudioCall } = this.props;
 
-        if(!_startAudioOnly && _participants.length > 2 || _participants.length == 1){
+        if(!isAudioCall && _participants.length > 2 || _participants.length == 1){
             return null;
         }
         if (_participants.length > 3 ) {
@@ -191,8 +189,7 @@ function _mapStateToProps(state) {
         _aspectRatio: state['features/base/responsive-ui'].aspectRatio,
         _participants: participants,
         _visible: enabled && isFilmstripVisible(state),
-        _videoMuted: isLocalCameraTrackMuted(tracks),
-        _startAudioOnly: audioOnly
+        _videoMuted: isLocalCameraTrackMuted(tracks)
     };
 }
 

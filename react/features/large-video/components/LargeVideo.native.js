@@ -124,7 +124,8 @@ class LargeVideo extends PureComponent<Props, State> {
             _participantId,
             _styles,
             onClick,
-            _participantName
+            _participantName,
+            isAudioCall
         } = this.props;
 
         return (
@@ -138,6 +139,7 @@ class LargeVideo extends PureComponent<Props, State> {
                 testHintId = 'org.jitsi.meet.LargeVideo'
                 useConnectivityInfoLabel = { useConnectivityInfoLabel }
                 zOrder = { 0 }
+                isAudioCall={isAudioCall}
                 zoomEnabled = { true } />
         );
     }

@@ -142,6 +142,9 @@ class Conference extends AbstractConference<Props, *> {
             }
           });
 
+          this.state={
+              isAudioCall: false
+          }
     }
 
     /**
@@ -153,6 +156,10 @@ class Conference extends AbstractConference<Props, *> {
      */
     componentDidMount() {
         BackButtonRegistry.addListener(this._onHardwareBackPress);
+
+        if(this.props._isAudioCall){
+            this.setState({isAudioCall: this.props._isAudioCall});
+        }
     }
 
     /**
@@ -296,9 +303,9 @@ class Conference extends AbstractConference<Props, *> {
                   * The LargeVideo is the lowermost stacking layer.
                   */
                     _shouldDisplayTileView
-                        ? _isAudioCall ? <TileView onClick = { this._onClick }/>
-                        : <VideoTileView onClick = { this._onClick } />
-                        : <LargeVideo onClick = { this._onClick } />
+                        ? this.state.isAudioCall ? <TileView onClick = { this._onClick } isAudioCall={this.state.isAudioCall} />
+                        : <VideoTileView onClick = { this._onClick } isAudioCall={this.state.isAudioCall}  />
+                        : <LargeVideo onClick = { this._onClick } isAudioCall={this.state.isAudioCall}  />
                 }
 
                 {/*
@@ -334,7 +341,7 @@ class Conference extends AbstractConference<Props, *> {
                         }}
                         {...this.panResponder.panHandlers}
                     > */}
-                    { <Filmstrip onClick = { this._onClick }/> }
+                    { <Filmstrip onClick = { this._onClick } isAudioCall={this.state.isAudioCall} /> }
                     {/* </Animated.View> */}
                     
                     <Toolbox />
