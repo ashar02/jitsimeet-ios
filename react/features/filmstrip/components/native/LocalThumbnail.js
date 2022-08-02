@@ -104,6 +104,7 @@ function LocalThumbnail(props: Props) {
                     renderDisplayName={true}
                     tileView={true}
                     isLocalUser={true}
+                    isAudioCall={props.isAudioCall}
                 />
             </View>
         );

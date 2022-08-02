@@ -105,7 +105,7 @@ class Filmstrip extends Component<Props> {
                 {
                     this._separateLocalThumbnail
                         && !isNarrowAspectRatio
-                        && <LocalThumbnail participantsCount={_participants.length} />
+                        && <LocalThumbnail participantsCount={_participants.length} isAudioCall={isAudioCall} />
                 }
                 
                 <ScrollView
@@ -115,7 +115,7 @@ class Filmstrip extends Component<Props> {
                     style = { styles.scrollView } >
                     {
                         !this._separateLocalThumbnail && !isNarrowAspectRatio
-                            && <LocalThumbnail participantsCount={_participants.length} />
+                            && <LocalThumbnail participantsCount={_participants.length} isAudioCall={isAudioCall} />
                     }
                     {/* {
 
@@ -128,13 +128,13 @@ class Filmstrip extends Component<Props> {
                     } */}
                     {
                         !this._separateLocalThumbnail && isNarrowAspectRatio
-                            && <LocalThumbnail participantsCount={_participants.length} />
+                            && <LocalThumbnail participantsCount={_participants.length} isAudioCall={isAudioCall} />
                     }
                 </ScrollView>
                
                 {
                     this._separateLocalThumbnail && isNarrowAspectRatio
-                        && <LocalThumbnail participantsCount={_participants.length} />
+                        && <LocalThumbnail participantsCount={_participants.length} isAudioCall={isAudioCall} />
                 }
             </SafeAreaView>
             </TouchableWithoutFeedback>
